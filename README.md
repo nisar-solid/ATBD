@@ -1,5 +1,4 @@
-# ATBD
-Notebooks for Algorithm Theoretical Basis Document for NISAR Solid Earth Team
+## Notebooks for Algorithm Theoretical Basis Document for NISAR Solid Earth Team
 
 [![Language](https://img.shields.io/badge/python-3.7%2B-blue.svg)](https://www.python.org/)
 
@@ -66,7 +65,7 @@ TODO
 
 ------
 ## 5. Contributors
-* Yunjun Zhang
+* Zhang Yunjun
 * [_other community members_](https://github.com/nisar-solid/ATBD/graphs/contributors)
 
 We welcome community contributions. For instructions see [here](https://github.com/nisar-solid/ATBD/CONTRIBUTING.md).
