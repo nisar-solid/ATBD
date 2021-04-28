@@ -2,9 +2,8 @@
 Notebooks for Algorithm Theoretical Basis Document for NISAR Solid Earth Team
 
 [![Language](https://img.shields.io/badge/python-3.7%2B-blue.svg)](https://www.python.org/)
-[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://github.com/dbekaert/RAiDER/blob/dev/LICENSE)
 
-ATBD is a package in Python which contains the NISAR Solid Earth Jupyter notebooks that are to be used for verifying the NISAR L2 Solid Earth Science requirements. Its development started from existing open-source notebooks developped by the MintPY and ARIA-tools teams, with funding support from the NISAR Science Team (NISAR-ST). U.S. Government sponsorship acknowledged.
+ATBD is a package in Python which contains the NISAR Solid Earth Jupyter notebooks that are to be used for verifying the NISAR L2 Solid Earth Science requirements. Its development started from existing open-source notebooks developed by the MintPY and ARIA-tools teams, with funding support from the NISAR Science Team (NISAR-ST). U.S. Government sponsorship acknowledged.
 
 Copyright (c) 2021, California Institute of Technology ("Caltech"). All rights reserved.
 
@@ -12,18 +11,17 @@ THIS IS RESEARCH CODE PROVIDED TO YOU "AS IS" WITH NO WARRANTIES OF CORRECTNESS.
 
 ## Contents
 
-- [ATBD]
-  - [Contents](#contents)
-  - [1. ATBD Dependencies](#1-atbd-dependencies)
-    - [Python dependencies](#python-dependencies)
-    - [Python Jupyter dependencies](#python-jupyter-dependencies)
-  - [2. Downloading ATBDs](#2-downloading-atbds)
-  - [3. Installing ATBDs dependancies](#3-installing-atbd-dependancies)
+- [Contents](#contents)
+- [1. ATBD Dependencies](#1-atbd-dependencies)
+  - [Python dependencies](#python-dependencies)
+  - [Python Jupyter dependencies](#python-jupyter-dependencies)
+- [2. Downloading ATBDs](#2-downloading-atbds)
+- [3. Installing ATBDs dependancies](#3-installing-atbd-dependancies)
   - [With Conda](#with-conda)
   - [Other Installation Options](#other-installation-options)
   - [Common Installation Issues](#common-installation-issues)
-  - [4. Citation](#4-citation)
-  - [5. Contributors](#5-contributors)
+- [4. Citation](#4-citation)
+- [5. Contributors](#5-contributors)
 
 
 ------
@@ -45,7 +43,7 @@ Option 1: __[download the source code](https://github.com/nisar-solid/ATBD/archi
 
 Option 2: __[clone to the repository](https://github.com/nisar-solid/ATBD)__ to your system.
 ```
-git clone https://github.com/dbekaert/RAiDER.git
+git clone https://github.com/nisar-solid/ATBD.git
 ```
 
 ------
