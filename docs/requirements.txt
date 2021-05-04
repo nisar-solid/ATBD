@@ -1,0 +1,15 @@
+gdal>3
+h5py
+numpy
+matplotlib
+seaborn
+scipy
+# notebook
+jupyterlab<3.0
+jupyter_contrib_nbextensions
+jupyter_nbextensions_configurator
+nbdime
+# mintpy
+fortran-compiler  #for pysolid
+scikit-learn      #for bootstrap method in ts2vel
+rich              #for rich terminal output
