@@ -1,11 +1,11 @@
-gdal>3
+gdal>=3
 h5py
 numpy
 matplotlib
 seaborn
 scipy
 # notebook
-jupyterlab<3.0
+jupyterlab
 jupyter_contrib_nbextensions
 jupyter_nbextensions_configurator
 nbdime
