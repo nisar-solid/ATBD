@@ -11,7 +11,7 @@ THIS IS RESEARCH CODE PROVIDED TO YOU "AS IS" WITH NO WARRANTIES OF CORRECTNESS.
 ------
 ## 1. [Installation](https://github.com/nisar-solid/conda_envs)
 The dependencies of this ATBD repo is listed in the [requirements.txt](./docs/requirements.txt) file.
-A detailed installation on how to build a working environment using these requirements can be found [here](https://github.com/nisar-solid/conda_envs)
+A detailed installation on how to build a working environment using these requirements can be found [here](https://github.com/nisar-solid/conda_envs).
 
 Notes on GPS code installation.
 
