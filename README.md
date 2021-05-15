@@ -16,6 +16,13 @@ A detailed installation on how to build a working environment using these requir
 Notes on GPS code installation.
 
 ------
+## 2. ATBD Jupyter notebooks
+The ATBDs for the NISAR Solid Earth L2 requiremetns are included in the xxx folder. A folder breakdown is provided for each requirement.
+- Secular Deformation (658) 
+- Co-Seismic Deformation (660) 
+- Transient Deformation (663) 
+
+------
 ## 2. Citation
 TODO
 
