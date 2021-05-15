@@ -18,13 +18,23 @@ Notes on GPS code installation.
 ------
 ## 2. ATBD Jupyter notebooks
 The ATBDs for the NISAR Solid Earth L2 requiremetns are included in the xxx folder. A folder breakdown is provided for each requirement.
+
 - Secular Deformation (658) 
 - Co-Seismic Deformation (660) 
 - Transient Deformation (663) 
 
 ------
-## 2. Citation
-TODO
+## 3. Implementation Plan
+
+The functional components (building blocks) are briefly summarized and listed in https://github.com/nisar-solid/ATBD/issues/2. For each not-complete funcationality (linked in the summary issue), an independent issue ticket is created for detailed description / discussion and work distribution. 
+
+------
+## 4. Communication & Documentation
+
+- Slack channel: NISAR-ST for quick questions discussions
+- GitHub [issues](https://github.com/nisar-solid/ATBD/issues) and [discussions](https://github.com/nisar-solid/ATBD/discussions)
+- Emails always works if preferred
+- GitHub [wiki](https://github.com/nisar-solid/ATBD/wiki) is a convenient place to take notes
 
 ------
 ## 5. Contributing
