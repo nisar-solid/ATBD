@@ -1,0 +1,34 @@
+mintpy.load.processor      = aria  #[isce, aria, snap, gamma, roipac], auto for isce
+mintpy.load.updateMode     = auto  #[yes / no], auto for yes, skip re-loading if HDF5 files are complete
+mintpy.load.compression    = auto  #[gzip / lzf / no], auto for no.
+
+##---------interferogram datasets:
+mintpy.load.unwFile        = ../stack/unwrapStack.vrt
+mintpy.load.corFile        = ../stack/cohStack.vrt
+mintpy.load.connCompFile   = ../stack/connCompStack.vrt
+
+##---------geometry datasets:
+mintpy.load.demFile        = ../DEM/SRTM_3arcsec.dem
+mintpy.load.incAngleFile   = ../incidenceAngle/20150605_20150512.vrt
+mintpy.load.azAngleFile    = ../azimuthAngle/20150605_20150512.vrt
+mintpy.load.waterMaskFile  = ../mask/watermask.msk
+
+mintpy.reference.yx                          = 490,630
+mintpy.network.coherenceBased                = no
+mintpy.networkInversion.weightFunc           = no
+mintpy.deramp                                = no   #[no / linear / quadratic], auto for no - no ramp will be removed
+mintpy.topographicResidual                   = no  #[yes / no], auto for yes
+
+
+# network modification
+mintpy.network.excludeDate     = 20160107  #[20080520,20090817 / no], auto for no
+mintpy.network.excludeIfgIndex = 25, 30, 34, 40, 46, 52, 56, 57, 61, 62, 67, 70, 74, 80
+mintpy.network.keepMinSpanTree = yes
+mintpy.network.tempBaseMax     = auto  #[1-inf, no], auto for no, maximum temporal baseline in days
+mintpy.network.perpBaseMax     = auto  #[1-inf, no], auto for no, maximum perpendicular spatial baseline in meter
+mintpy.network.startDate       = auto  #[20090101 / no], auto for no
+mintpy.network.endDate         = auto  #[20110101 / no], auto for no
+
+
+# do not modify
+mintpy.troposphericDelay.method = no 
