@@ -9,14 +9,16 @@ Copyright (c) 2021, California Institute of Technology ("Caltech"). All rights r
 THIS IS RESEARCH CODE PROVIDED TO YOU "AS IS" WITH NO WARRANTIES OF CORRECTNESS. USE AT YOUR OWN RISK.
 
 ------
-## 1. [Installation](https://github.com/nisar-solid/conda_envs)
+## 1. [Installation](./docs/installation.md)
+
 The dependencies of this ATBD repo is listed in the [requirements.txt](./docs/requirements.txt) file.
-A detailed installation on how to build a working environment using these requirements can be found [here](https://github.com/nisar-solid/conda_envs).
+A detailed installation on how to build a working environment using these requirements can be found [here](./docs/installation.md).
 
 Notes on GPS code installation.
 
 ------
 ## 2. ATBD Jupyter notebooks
+
 The ATBDs for the NISAR Solid Earth L2 requiremetns are included in the xxx folder. A folder breakdown is provided for each requirement.
 
 - Secular Deformation (658) 
