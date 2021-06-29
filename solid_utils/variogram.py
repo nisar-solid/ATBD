@@ -1,5 +1,8 @@
-import numpy as np
+#!/usr/bin/env python3
+
+
 import itertools
+import numpy as np
 from scipy.spatial.distance import pdist
 from scipy.stats import binned_statistic
 
