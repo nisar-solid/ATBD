@@ -1,5 +1,6 @@
 gdal>=3
 h5py
+isce2
 numpy
 matplotlib
 seaborn
