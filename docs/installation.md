@@ -11,8 +11,7 @@ mkdir -p ~/tools; cd ~/tools
 # for Linux, use Miniconda3-latest-Linux-x86_64.sh
 # for macOS, opt 2: curl https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-x86_64.sh -o Miniconda3-latest-MacOSX-x86_64.sh
 wget https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-x86_64.sh
-chmod +x Miniconda3-latest-MacOSX-x86_64.sh
-./Miniconda3-latest-MacOSX-x86_64.sh -b -p ~/tools/miniconda3
+bash Miniconda3-latest-MacOSX-x86_64.sh -b -p ~/tools/miniconda3
 ~/tools/miniconda3/bin/conda init bash
 ```
 
@@ -29,7 +28,7 @@ conda install wget git tree mamba --yes
 
 ```bash
 cd ~/tools
-git clone https://github.com/nisar-solid/ATBD.git
+git clone https://gitlab.com/nisar-science-algorithms/solid-earth/ATBD.git
 git clone https://github.com/isce-framework/isce2.git ~/tools/isce2/src/isce2
 git clone https://github.com/aria-tools/ARIA-tools.git
 git clone https://github.com/insarlab/MintPy.git
@@ -45,7 +44,7 @@ conda create --name atbd
 conda activate atbd
 
 # install dependencies with conda
-mamba install --yes --file ATBD/docs/requirements.txt --file MintPy/docs/conda.txt --file ARIA-tools/requirements.txt
+mamba install --yes --file ATBD/docs/requirements.txt --file MintPy/docs/requirements.txt --file ARIA-tools/requirements.txt
 
 # install dependencies not available from conda
 ln -s ${CONDA_PREFIX}/bin/cython ${CONDA_PREFIX}/bin/cython3
