@@ -45,7 +45,7 @@ conda create --name atbd
 conda activate atbd
 
 # install dependencies with conda
-mamba install --yes --file ATBD/docs/requirements.txt --file MintPy/docs/conda.txt --file ARIA-tools/requirements.txt
+mamba install --yes --file ATBD/docs/requirements.txt --file MintPy/docs/requirements.txt --file ARIA-tools/requirements.txt
 
 # install dependencies not available from conda
 ln -s ${CONDA_PREFIX}/bin/cython ${CONDA_PREFIX}/bin/cython3
