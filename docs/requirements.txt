@@ -6,6 +6,7 @@ matplotlib
 seaborn
 scipy
 # notebook
+awscli            #for staged data downloading
 jupyterlab
 jupyter_contrib_nbextensions
 jupyter_nbextensions_configurator
