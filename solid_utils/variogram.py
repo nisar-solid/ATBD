@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
-
+# recommended usage:
+#   from solid_utils import variogram
 
 import itertools
 import numpy as np
