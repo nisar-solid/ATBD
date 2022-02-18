@@ -1,0 +1,16 @@
+gdal>=3
+h5py
+#isce2
+numpy
+matplotlib
+scipy
+# notebook
+awscli            #for staged data downloading
+jupyterlab
+jupyter_contrib_nbextensions
+jupyter_nbextensions_configurator
+nbdime
+# variogram
+geopandas
+pandas
+rasterio

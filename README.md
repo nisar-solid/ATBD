@@ -15,7 +15,7 @@ THIS IS RESEARCH CODE PROVIDED TO YOU "AS IS" WITH NO WARRANTIES OF CORRECTNESS.
 ------
 ## 1. [Installation](./docs/installation.md)
 
-The dependencies of this ATBD repo is listed in the [requirements.txt](./docs/requirements.txt) file.
+The dependencies of this ATBD repo is listed in the [requirements.txt](./requirements.txt) file.
 A detailed installation on how to build a working environment using these requirements can be found [here](./docs/installation.md).
 
 Notes on GPS code installation.

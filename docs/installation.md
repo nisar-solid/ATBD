@@ -32,8 +32,6 @@ git clone https://gitlab.com/nisar-science-algorithms/solid-earth/ATBD.git
 git clone https://github.com/isce-framework/isce2.git ~/tools/isce2/src/isce2
 git clone https://github.com/aria-tools/ARIA-tools.git
 git clone https://github.com/insarlab/MintPy.git
-git clone https://github.com/insarlab/PySolid.git
-git clone https://github.com/yunjunz/PyAPS.git
 ```
 
 #### Create `atbd` environment and install pre-requisites
@@ -44,16 +42,11 @@ conda create --name atbd
 conda activate atbd
 
 # install dependencies with conda
-mamba install --yes --file ATBD/docs/requirements.txt --file MintPy/docs/requirements.txt --file ARIA-tools/requirements.txt
+mamba install --yes --file ATBD/requirements.txt --file MintPy/docs/requirements.txt --file ARIA-tools/requirements.txt
 
 # install dependencies not available from conda
 ln -s ${CONDA_PREFIX}/bin/cython ${CONDA_PREFIX}/bin/cython3
-$CONDA_PREFIX/bin/pip install git+https://github.com/tylere/pykml.git
 $CONDA_PREFIX/bin/pip install ipynb        # import functions from ipynb files
-
-# compile PySolid
-cd ~/tools/PySolid/pysolid
-f2py -c -m solid solid.for
 ```
 
 #### Setup
@@ -70,7 +63,6 @@ Run the following to test the installation:
 
 ```bash
 load_atbd
-topsApp.py -h
 ariaDownload.py -h
 smallbaselineApp.py -h
 ```
