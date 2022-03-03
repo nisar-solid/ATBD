@@ -28,7 +28,7 @@ conda install wget git tree mamba --yes
 
 ```bash
 cd ~/tools
-git clone https://gitlab.com/nisar-science-algorithms/solid-earth/ATBD.git
+git clone https://github.com/nisar-solid/ATBD.git
 git clone https://github.com/isce-framework/isce2.git ~/tools/isce2/src/isce2
 git clone https://github.com/aria-tools/ARIA-tools.git
 git clone https://github.com/insarlab/MintPy.git
