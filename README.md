@@ -2,10 +2,6 @@
 
 [![Language](https://img.shields.io/badge/python-3.7%2B-blue.svg)](https://www.python.org/)
 
-NOTE: Archive this repo because the development has been migrated to GitLab:
-
-+ https://gitlab.com/nisar-science-algorithms/solid-earth/ATBD
-
 ATBD is a package in Python which contains the NISAR Solid Earth Jupyter notebooks that are to be used for verifying the NISAR L2 Solid Earth Science requirements. Its development started from existing open-source notebooks developed by the MintPy and ARIA-tools teams, with funding support from the NISAR Science Team (NISAR-ST). U.S. Government sponsorship acknowledged.
 
 Copyright (c) 2021, California Institute of Technology ("Caltech"). All rights reserved.
