@@ -1,0 +1,36 @@
+# This is a basic workflow to help you get started with Actions
+# link: https://dev.to/brunorobert/github-and-gitlab-sync-44mn
+
+name: GitLabSync
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the main branch
+  push:
+  delete:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "sync"
+  sync:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    name: Git Repo Sync
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      # Runs a single command using the runners shell
+      - uses: wangchucheng/git-repo-sync@v0.1.0
+        with:
+          # Such as https://github.com/wangchucheng/git-repo-sync.git
+          target-url: ${{ secrets.GITLAB_URL }}
+          # Such as wangchucheng
+          target-username: ${{ secrets.GITLAB_USERNAME }}
+          # You can store token in your project's 'Setting > Secrets' and reference the name here. Such as ${{ secrets.ACCESS\_TOKEN }}
+          target-token: ${{ secrets.GITLAB_TOKEN }}
