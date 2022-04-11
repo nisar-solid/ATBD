@@ -2,6 +2,7 @@
 __pycache__/
 *.py[cod]
 *$py.class
+*.DS_Store
 
 # C extensions
 *.so
@@ -127,4 +128,8 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
-.DS_Store
+
+# Transient
+methods/transient/calval
+methods/transient/.ipynb_checkpoints/
+methods/transient/error.log
