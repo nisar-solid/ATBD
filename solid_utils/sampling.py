@@ -1,10 +1,18 @@
 import numpy as np
 import math
 import warnings
-from .variogram import remove_trend as rt
+from solid_utils.variogram import remove_trend
+
+
 def load_geo(attr_geo):
     """This program calculate the coordinate of the geocoded files 
     and perform coordinate transformation from longitude and latitude to local coordinate in kilometers.
+    
+    The coordinate transformation is done with several assumption.
+    1.) The earth is a sphere with radius equals to 6371 km. So both of the distance of one latitude degree
+    and the distance of one longitude degree at equator is 2*PI*6371/360 = 111.195 km. 
+    2.) The distance of one longitude degreevaries with latitude. Here it is simply assumed to be the one
+    at the central latitude of the input scene.
     
     Parameters:
     geo_attr:attribute of the geocoded data
@@ -29,8 +37,8 @@ def load_geo(attr_geo):
     
     Y_origin = Y0+Y_step*(-Y_local_first_ix)
     
-    X_step_local = math.cos(math.radians(Y_origin))*X_step*111.1
-    Y_step_local = Y_step*111.1
+    X_step_local = math.cos(math.radians(Y_origin))*X_step*111.195
+    Y_step_local = Y_step*111.195
     
 
     X=np.linspace(X_local_first_ix*X_step_local,X_local_end_ix*X_step_local,width)
@@ -90,10 +98,8 @@ def pair_up(x,y,data):
     Returns: 
     distance: np.ndarray
         distances for every data pairs (1d)
-    : np.ndarray
-        X location of the sampled data points (1d)
-    sampled_Y: np.ndarray
-        Y location of the sampled data points (1d)
+    rel_measure: np.ndarray
+        absolute value of data difference for every data pairs (1d)
     """
     x_odd = x[1::2]
     y_odd = y[1::2]
@@ -110,7 +116,32 @@ def pair_up(x,y,data):
     rel_measure = abs(data_odd-data_even)
     return distance,rel_measure
 
-def samp_pair(x,y,data,num_samples=1000000,remove_trend=False):
+def samp_pair(x,y,data,num_samples=1000000,deramp=False):
+    """
+    Randomly select data points and pair up them.
+    This function is based on rand_samp and pair_up.
+    all data points will be used if num_samples > len(data).
+    This function also provide option to remove trend.
+    
+    Parameters:
+    data: np.ndarray
+        input data array (1d)
+    X: np.ndarray
+        input X location of the data points (1d)
+    Y: np.ndarray
+        input Y location of the data points (1d)
+    num_samples: int
+        number of points to be sampled, default value is 1000000
+    deramp: Bool
+        flag to remove trend, default value is False
+    
+    Returns: 
+    distance: np.ndarray
+        distances for every data pairs (1d)
+    rel_measure: np.ndarray
+        absolute value of data difference for every data pairs (1d)
+    """
+    
     assert x.shape == y.shape
     assert x.shape == data.shape
     assert x.ndim == 2
@@ -122,8 +153,8 @@ def samp_pair(x,y,data,num_samples=1000000,remove_trend=False):
     y1d = y[~mask]
     
     # remove trend (optional)
-    if remove_trend:
-        data1d = rt(x1d,y1d,data1d)
+    if deramp:
+        data1d = remove_trend(x1d,y1d,data1d)
     
     # randomly sample
     data1d,x1d,y1d = rand_samp(data1d,x1d,y1d,num_samples=num_samples)

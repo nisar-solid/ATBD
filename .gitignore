@@ -133,6 +133,3 @@ dmypy.json
 methods/transient/calval
 methods/transient/.ipynb_checkpoints/
 methods/transient/error.log
-methods/transient/NISAR_SES_Secular_Requirement_Validation_v2.ipynb
-methods/transient/calval_secular/
-methods/transient/DataHoldings.txt
