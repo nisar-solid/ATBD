@@ -37,11 +37,11 @@ def load_geo(attr_geo):
     X_step_local = math.cos(math.radians(Y_origin))*X_step*111.195
     Y_step_local = Y_step*111.195
 
-
     X=np.linspace(X_local_first_ix*X_step_local,X_local_end_ix*X_step_local,width)
     Y=np.linspace(Y_local_first_ix*Y_step_local,Y_local_end_ix*Y_step_local,length)
 
     return X,Y
+
 
 def rand_samp(data:np.ndarray,X:np.ndarray,Y:np.ndarray,num_samples:int=10000):
     """This function randomly selects data points, all data points will be used if
@@ -71,13 +71,14 @@ def rand_samp(data:np.ndarray,X:np.ndarray,Y:np.ndarray,num_samples:int=10000):
         warnings.warn(f'Using all data points: {n_points}')
     else:
         n_points=num_samples
-        
+
     ind=np.random.choice(length,n_points,replace=False)
     sampled_data=data[ind]
     sampled_X=X[ind]
     sampled_Y=Y[ind]
 
     return sampled_data, sampled_X, sampled_Y
+
 
 def pair_up(x,y,data):
     """Pair up data samples.
@@ -111,6 +112,7 @@ def pair_up(x,y,data):
     rel_measure = abs(data_odd-data_even)
     return distance,rel_measure
 
+
 def samp_pair(x,y,data,num_samples=1000000,deramp=False):
     """Randomly select data points and pair up them.
     This function is based on rand_samp and pair_up.
@@ -138,20 +140,20 @@ def samp_pair(x,y,data,num_samples=1000000,deramp=False):
     assert x.shape == y.shape
     assert x.shape == data.shape
     assert x.ndim == 2
-        
+
     # mask nan, result in 1d
     mask = np.isnan(data)
     data1d = data[~mask]
     x1d = x[~mask]
     y1d = y[~mask]
-    
+
     # remove trend (optional)
     if deramp:
         data1d = remove_trend(x1d,y1d,data1d)
-    
+
     # randomly sample
     data1d,x1d,y1d = rand_samp(data1d,x1d,y1d,num_samples=num_samples)
-    
+
     # pair up
     distance, rel_measure = pair_up(x1d,y1d,data1d)
     return distance, rel_measure
