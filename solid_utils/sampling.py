@@ -26,17 +26,17 @@ def load_geo(attr_geo):
     Y_step=float(attr_geo['Y_STEP'])
     length=int(attr_geo['LENGTH'])
     width=int(attr_geo['WIDTH'])
-    
+
     Y_local_end_ix = math.floor(length/2)
     Y_local_first_ix = -(length-Y_local_end_ix-1)
     X_local_end_ix = math.floor(width/2)
     X_local_first_ix = -(width-X_local_end_ix-1)
-    
+
     Y_origin = Y0+Y_step*(-Y_local_first_ix)
-    
+
     X_step_local = math.cos(math.radians(Y_origin))*X_step*111.195
     Y_step_local = Y_step*111.195
-    
+
 
     X=np.linspace(X_local_first_ix*X_step_local,X_local_end_ix*X_step_local,width)
     Y=np.linspace(Y_local_first_ix*Y_step_local,Y_local_end_ix*Y_step_local,length)
@@ -135,7 +135,6 @@ def samp_pair(x,y,data,num_samples=1000000,deramp=False):
     rel_measure: np.ndarray
         absolute value of data difference for every data pairs (1d)
     """
-    
     assert x.shape == y.shape
     assert x.shape == data.shape
     assert x.ndim == 2
