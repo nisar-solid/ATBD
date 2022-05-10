@@ -19,7 +19,7 @@ Close and restart the shell for changes to take effect.
 
 ```
 conda config --add channels conda-forge
-conda install wget git tree mamba --yes
+conda install git mamba --yes
 ```
 
 ### 2. Install ATBD, ISCE-2, ARIA-tools and MintPy to `atbd` environment
@@ -42,7 +42,7 @@ conda create --name atbd
 conda activate atbd
 
 # install dependencies with conda
-mamba install --yes --file ATBD/requirements.txt --file MintPy/docs/requirements.txt --file ARIA-tools/requirements.txt
+mamba install --yes --file ATBD/requirements.txt --file MintPy/requirements.txt --file ARIA-tools/requirements.txt
 
 # install dependencies not available from conda
 ln -s ${CONDA_PREFIX}/bin/cython ${CONDA_PREFIX}/bin/cython3
