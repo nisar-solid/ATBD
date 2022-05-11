@@ -4,6 +4,7 @@ h5py
 numpy
 matplotlib
 scipy
+wget
 # notebook
 awscli            #for staged data downloading
 jupyterlab
