@@ -12,9 +12,6 @@ export ATBD_HOME=${TOOL_DIR}/ATBD
 export PYTHONPATH=${PYTHONPATH}:${ATBD_HOME}
 
 ##-------------- MintPy -------------------------------##
-export MINTPY_HOME=${TOOL_DIR}/MintPy
-export PYTHONPATH=${PYTHONPATH}:${MINTPY_HOME}
-export PATH=${PATH}:${MINTPY_HOME}/mintpy
 export WEATHER_DIR=${DATA_DIR}/aux
 
 ##-------------- ARIA-tools ---------------------------##
@@ -25,16 +22,7 @@ export PATH=${PATH}:${ARIATOOLS_HOME}/bin
 ##-------------- ISCE2 --------------------------------##
 # ISCE_HOME/STACK are set by conda
 export PATH=${PATH}:${ISCE_HOME}/bin:${ISCE_HOME}/applications
-#echo "load ISCE-2 core modules installed by conda at "$ISCE_HOME
-
-# common settings (source stack processors and PyCuAmpcor)
-export ISCE_STACK=${TOOL_DIR}/isce2/src/isce2/contrib/stack                     #set ISCE_STACK to the dev version
-export PYTHONPATH=${PYTHONPATH}:${ISCE_STACK}                                   #import tops/stripmapStack as python modules
 export DEMDB=${DATA_DIR}/aux/DEM
-
-# source ONLY ONE AT A TIME to avoid naming conflicts
-alias load_stripmap_stack='export PATH=${PATH}:${ISCE_STACK}/stripmapStack; echo "load ISCE-2 stripmapStack from "${ISCE_STACK}/stripmapStack'
-alias load_tops_stack='export PATH=${PATH}:${ISCE_STACK}/topsStack; echo "load ISCE-2 topsStack from "${ISCE_STACK}/topsStack'
 
 ##---------------------- Miscellaneous ----------------##
 export VRT_SHARED_SOURCE=0

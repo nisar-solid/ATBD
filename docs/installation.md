@@ -22,14 +22,13 @@ conda config --add channels conda-forge
 conda install git mamba --yes
 ```
 
-### 2. Install ATBD, ISCE-2, ARIA-tools and MintPy to `atbd` environment
+### 2. Install ATBD to `atbd` environment
 
 #### Download source code
 
 ```bash
 cd ~/tools
 git clone https://github.com/nisar-solid/ATBD.git
-git clone https://github.com/isce-framework/isce2.git ~/tools/isce2/src/isce2
 git clone https://github.com/aria-tools/ARIA-tools.git
 git clone https://github.com/insarlab/MintPy.git
 ```
@@ -47,6 +46,9 @@ mamba install --yes --file ATBD/requirements.txt --file MintPy/requirements.txt 
 # install dependencies not available from conda
 ln -s ${CONDA_PREFIX}/bin/cython ${CONDA_PREFIX}/bin/cython3
 $CONDA_PREFIX/bin/pip install ipynb        # import functions from ipynb files
+
+# install the development version of mintpy
+$CONDA_PREFIX/bin/pip install -e ~/tools/MintPy
 ```
 
 #### Setup
