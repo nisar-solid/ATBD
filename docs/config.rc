@@ -15,11 +15,11 @@ export PYTHONPATH=${PYTHONPATH}:${ATBD_HOME}
 export WEATHER_DIR=${DATA_DIR}/aux
 
 ##-------------- ARIA-tools ---------------------------##
+# now installed with pip so no need to change PATH and PYTHONPATH
 export ARIATOOLS_HOME=${TOOL_DIR}/ARIA-tools/tools
-export PYTHONPATH=${PYTHONPATH}:${ARIATOOLS_HOME}
-export PATH=${PATH}:${ARIATOOLS_HOME}/bin
 
 ##-------------- ISCE2 --------------------------------##
+# no longer used, but does not hurt to leave it here
 # ISCE_HOME/STACK are set by conda
 export PATH=${PATH}:${ISCE_HOME}/bin:${ISCE_HOME}/applications
 export DEMDB=${DATA_DIR}/aux/DEM

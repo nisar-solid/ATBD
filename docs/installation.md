@@ -49,6 +49,9 @@ $CONDA_PREFIX/bin/pip install ipynb        # import functions from ipynb files
 
 # install the development version of mintpy
 $CONDA_PREFIX/bin/pip install -e ~/tools/MintPy
+
+# install the development version of ARIA-tools
+$CONDA_PREFIX/bin/pip install -e ~/tools/ARIA-tools
 ```
 
 #### Setup
