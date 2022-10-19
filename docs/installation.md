@@ -30,7 +30,6 @@ conda install git mamba --yes
 cd ~/tools
 git clone https://github.com/nisar-solid/ATBD.git
 git clone https://github.com/aria-tools/ARIA-tools.git
-git clone https://github.com/insarlab/MintPy.git
 ```
 
 #### Create `atbd` environment and install pre-requisites
@@ -41,14 +40,11 @@ conda create --name atbd
 conda activate atbd
 
 # install dependencies with conda
-mamba install --yes --file ATBD/requirements.txt --file MintPy/requirements.txt --file ARIA-tools/requirements.txt
+mamba install --yes --file ATBD/requirements.txt --file ARIA-tools/requirements.txt
 
 # install dependencies not available from conda
 ln -s ${CONDA_PREFIX}/bin/cython ${CONDA_PREFIX}/bin/cython3
 $CONDA_PREFIX/bin/pip install ipynb        # import functions from ipynb files
-
-# install the development version of mintpy
-$CONDA_PREFIX/bin/pip install -e ~/tools/MintPy
 
 # install the development version of ARIA-tools
 $CONDA_PREFIX/bin/pip install -e ~/tools/ARIA-tools
