@@ -1,8 +1,9 @@
 gdal>=3
 h5py
 #isce2
-numpy
 matplotlib
+mintpy=1.4.1
+numpy
 scipy
 wget
 # notebook
