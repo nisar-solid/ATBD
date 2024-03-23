@@ -13,7 +13,6 @@ def remove_trend(x: np.ndarray,
                 data: np.ndarray) -> np.array:
     """This performs a basic 2d linear regression and removes the trend from
     the data. This is also known as 'de-ramping'.
-
     Parameters
     ----------
     x : np.ndarray
@@ -22,7 +21,6 @@ def remove_trend(x: np.ndarray,
         y coordinates flattened
     data : np.ndarray
         Statistics/value to be de-trended
-
     Returns
     -------
     np.array
@@ -42,10 +40,8 @@ def get_emp_variogram(x: np.ndarray,
                       n_samples: int = None) -> tuple:
     """
     Obtains the (distances, empirical variogram) from de-trended data.
-
     Primary model assumptions are the mean is zero and the variance depends on
     space alone.
-
     Parameters
     ----------
     x : np.ndarray
@@ -57,7 +53,6 @@ def get_emp_variogram(x: np.ndarray,
     n_samples : int, optional
         How many samples to use (if None, then all samples used), by default
         None
-
     Returns
     -------
     tuple [np.ndarray, np.ndarray]
@@ -98,7 +93,6 @@ def bin_variogram(distance: np.ndarray,
                   bins: int = 20,
                   distance_range: list = None) -> tuple:
     """Bin the distances and variogram for analysis
-
     Parameters
     ----------
     distance : np.ndarray
@@ -110,7 +104,6 @@ def bin_variogram(distance: np.ndarray,
     distance_range : list, optional
         The range of distance to analyze (if None, whole range used), by default
         None.
-
     Returns
     -------
     tuple [np.ndarray, np.ndarray]

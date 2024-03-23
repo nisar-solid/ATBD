@@ -48,6 +48,26 @@ def load_geo(attr_geo):
 
     return X,Y
 
+def load_geo_utm(attr_geo):
+    """Produces X and Y vectors from geocoded files in UTM projection.
+    Gives coordinates for middle of each pixel
+    """
+    X0=int(float(attr_geo['X_FIRST']))
+    Y0=int(float(attr_geo['Y_FIRST']))
+    X_step=int(float(attr_geo['X_STEP']))
+    Y_step=int(float(attr_geo['Y_STEP']))
+    length=int(attr_geo['LENGTH'])
+    width=int(attr_geo['WIDTH'])
+
+    
+    X_start = X0+X_step/2
+    Y_start = Y0+Y_step/2
+    
+    X = np.arange(X_start,X_start+X_step*width,X_step)
+    Y = np.arange(Y_start,Y_start+Y_step*length,Y_step)
+    
+    return X,Y
+
 
 def rand_samp(data:np.ndarray,X:np.ndarray,Y:np.ndarray,num_samples:int=10000):
     """This function randomly selects data points, all data points will be used if
