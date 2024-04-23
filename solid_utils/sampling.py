@@ -302,6 +302,13 @@ def profile_samples(x, y, data, metadata, len_rqmt, num_samples=10000):
         transect['distance'] /= 1000
 
         # Solve for fit
+        if transect['distance'].size == 0 or transect['distance'].size == 0:
+            # Store distance and difference values
+            dist[i] = np.nan
+            rel_measure[i] = np.nan
+
+            continue
+
         fit = np.polyfit(transect['distance'], transect['value'], 1)
 
         # Solve for values at profile start and end points
