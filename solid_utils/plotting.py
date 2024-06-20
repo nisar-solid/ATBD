@@ -1,3 +1,6 @@
+# Author: Marin Govorcin
+# June, 2024
+
 import pandas as pd
 import numpy as np
 import matplotlib.patches as patches
@@ -55,7 +58,7 @@ def display_validation(pair_distance: NDArray, pair_difference: NDArray,
    validation = pd.concat([validation, pd.DataFrame(validation.sum(axis=0)).T])
    validation['passed_pc'] = validation['passed_req.[#]'] / validation['total_count[#]']
    validation['success_fail'] = validation['passed_pc'] > threshold
-   validation.index.name = 'distance'
+   validation.index.name = 'distance[km]'
    # Rename last row
    validation.rename({validation.iloc[-1].name:'Total'}, inplace=True)
 
@@ -86,7 +89,7 @@ def display_validation(pair_distance: NDArray, pair_difference: NDArray,
    # Add legend with data info
    legend_kwargs = dict(transform=ax.transAxes, verticalalignment='top')
    props = dict(boxstyle='square', facecolor='white', alpha=1, linewidth=0.4)
-   textstr = f'Sensor: {sensor} \n{validation_data}-InSAR pointpairs\n'
+   textstr = f'Sensor: {sensor} \n{validation_data}-InSAR point pairs\n'
    textstr += f'Record: {start_date}-{end_date}'
 
    # place a text box in upper left in axes coords
@@ -116,8 +119,8 @@ def display_validation(pair_distance: NDArray, pair_difference: NDArray,
 
    # Title & labels
    fig.suptitle(f"{validation_type.capitalize()} requirement: {site_name}")
-   ax.set_xlabel("Distance (km)")
-   ax.set_ylabel("Double-Differenced \nVelocity Residual (mm/yr)")
+   ax.set_xlabel("Distance (km)", fontsize=8)
+   ax.set_ylabel("Double-Differenced \nVelocity Residual (mm/yr)", fontsize=8)
    ax.minorticks_on()
    ax.tick_params(axis='x', which='minor', length=4, direction='in', top=False, width=1.5)
    ax.set_xticks(bin_centers, minor=True)
@@ -128,3 +131,27 @@ def display_validation(pair_distance: NDArray, pair_difference: NDArray,
    validation = validation.rename(columns={'success_fail': f'passed_req [>{threshold*100:.1f}%]'})
 
    return validation, fig
+
+def display_validation_table(validation_table):
+    # Display Statistics
+    def bold_last_row(row):
+        is_total = row.name == 'Total'
+        styles = ['font-weight: bold; font-size: 14px; border-top: 3px solid black' if is_total else '' for _ in row]
+        return styles
+    
+    def style_success_fail(value):
+        color = '#e6ffe6' if value else '#ffe6e6'
+        return 'background-color: %s' % color
+
+    # Overall pass/fail criterion
+    if validation_table.loc['Total'][validation_table.columns[-1]]:
+        print("This velocity dataset passes the requirement.")
+    else:
+        print("This velocity dataset does not pass the requirement.")
+
+    return (validation_table.style
+            .bar(subset=['passed_pc'], vmin=0, vmax=1, color='gray')
+            .format(lambda x: f'{x*100:.0f}%', na_rep="none", precision=1, subset=['passed_pc'])
+            .apply(bold_last_row, axis=1)
+            .map(style_success_fail, subset=[validation_table.columns[-1]])
+           )
