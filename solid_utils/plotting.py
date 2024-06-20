@@ -66,8 +66,10 @@ def display_validation(pair_distance: NDArray, pair_difference: NDArray,
    fig, ax = plt.subplots(1, figsize=(9, 3), layout="none", dpi=200)
    
    # Plot residuals
+   ms = 8 if pair_difference.shape[0] < 1e4 else 0.3
+   alpha = 0.6 if pair_difference.shape[0] < 1e4 else 0.2
    ax.scatter(df_nonan.distance, df_nonan.double_diff,
-              color='black', s=8, zorder=1, alpha=0.6, edgecolor='None')
+              color='black', s=ms, zorder=1, alpha=alpha, edgecolor='None')
 
    ax.fill_between(distance_rqmt, 0, requirement, color='#e6ffe6', zorder=0, alpha=0.6)
    ax.fill_between(distance_rqmt, requirement, 21, color='#ffe6e6', zorder=0, alpha=0.6)
@@ -84,7 +86,7 @@ def display_validation(pair_distance: NDArray, pair_difference: NDArray,
       else:
          color = '#7c1b1b'
       ax.bar(bin_center, quantile, align='center', width=np.diff(bins)[0],
-            color='None', edgecolor=color, linewidth=2, zorder=2)
+            color='None', edgecolor=color, linewidth=2, zorder=3)
       
    # Add legend with data info
    legend_kwargs = dict(transform=ax.transAxes, verticalalignment='top')
@@ -118,11 +120,16 @@ def display_validation(pair_distance: NDArray, pair_difference: NDArray,
    ax.add_patch(rect)
 
    # Title & labels
-   fig.suptitle(f"{validation_type.capitalize()} requirement: {site_name}")
+   fig.suptitle(f"{validation_type.capitalize()} requirement: {site_name}", fontsize=10)
    ax.set_xlabel("Distance (km)", fontsize=8)
-   ax.set_ylabel("Double-Differenced \nVelocity Residual (mm/yr)", fontsize=8)
+   if validation_data == 'GNSS':
+       txt = "Double-Differenced \nVelocity Residual (mm/yr)"
+   else:
+       txt = "Relative Velocity measurement (mm/yr)"    
+   ax.set_ylabel(txt, fontsize=8)
    ax.minorticks_on()
    ax.tick_params(axis='x', which='minor', length=4, direction='in', top=False, width=1.5)
+   ax.tick_params(axis='both', labelsize=8)
    ax.set_xticks(bin_centers, minor=True)
    ax.set_xticks(np.arange(0,55,5))
    ax.set_ylim(0,20)
