@@ -4,6 +4,8 @@
 import itertools as mit
 import numpy as np
 import os
+import isce
+import isceobj
 
 
 # Taken from raster.py by Brian Hawkins, JPL.
@@ -242,3 +244,26 @@ def correlation(intf, amp, cor):
             break
     for f in (fint, famp, fcor):
         f.close()
+        
+def isce_xml_ifg(ifg_file, amp_file, coh_file, samples):
+    outInt = isceobj.Image.createIntImage()
+    outInt.setFilename(ifg_file)
+    outInt.setWidth(samples)
+    outInt.setAccessMode('read')
+    outInt.renderHdr()
+    outInt.renderVRT()
+
+    outAmp = isceobj.Image.createAmpImage()
+    outAmp.setFilename(amp_file)
+    outAmp.setWidth(samples)
+    outAmp.setAccessMode('read')
+    outAmp.renderHdr()
+    outAmp.renderVRT()
+
+    outCor = isceobj.Image.createImage()
+    outCor.setFilename(coh_file)
+    outCor.setWidth(samples)
+    outCor.setAccessMode('read')
+    outCor.setDataType('FLOAT')
+    outCor.renderHdr()
+    outCor.renderVRT()
