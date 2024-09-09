@@ -1,7 +1,23 @@
 {
     "Info" : ["List of CalVal Sites:",
 
-"Set NISAR calval sites:",
+"New NISAR calval sites with Sentinel tracks:",
+
+"CentralValleyA137 : Central Valley",
+"LosAngelesA64 : Los Angeles Basin",
+"MojaveA64 : Mojave Desert",
+"LongValleyD133 : Long Valley Caldera",
+"MejillonesD54 : Mejillones, Chile, Sentinel-1 descending track 54",
+"MejillonesD156 : Mejillones, Chile, Sentinel-1 descending track 156",
+"WesternOregonD13 : Western Oregon",
+"HokkaidoD46 : Hokkaido, Japan",
+"HoustonA34 : Houston/Galveston",
+"HawaiiA124 : Big Island of Hawaii, Sentinel-1 ascending track 124",
+"HawaiiD87 : Big Island of Hawaii, Sentinel-1 descending track 87",
+"KiwiA81 : North Island, New Zealand",
+
+"Old NISAR calval sites:",
+
 "CentralValleyA144  : Central Valley",
 "OklahomaA107       : Oklahoma",
 "PuertoRicoD98      : Puerto Rico (Earthquake M6.4 on 20200107) - Descending track",
@@ -47,8 +63,199 @@
              "ifgExcludeList" : "auto",
              "maskWater" : "False"},
 
-
     "Info" : "##########  CENTRAL VALLEY ##############",
+    
+    "CentralValleyA137" : {
+            "calval_location" : "Central_Valley",
+            "download_region" : "'34.9 36.9 -120.8 -119.0'",
+            "analysis_region" : "'34.9 36.9 -120.8 -119.0'",
+            "reference_lalo" : "auto",
+            "download_start_date" : "20180101",
+            "download_end_date" : "20190101",
+            "earthquakeDate" : "20180412",              
+            "sentinel_track" : "137",
+            "gps_ref_site_name" : "CAWO",
+            "tempBaseMax" : "auto",
+            "ifgExcludeList" : "auto",
+            "maskWater" : "False"},  
+
+    "Info" : "##########  LOS ANGELES ##############",
+    
+    "LosAngelesA64" : {
+            "calval_location" : "Los_Angeles",
+            "download_region" : "'33.4 34.5 -119.0 -117.4'",
+            "analysis_region" : "'33.4 34.5 -119.0 -117.4'",
+            "reference_lalo" : "auto",
+            "download_start_date" : "20180101",
+            "download_end_date" : "20190101",
+            "earthquakeDate" : "20180412",              
+            "sentinel_track" : "64",
+            "gps_ref_site_name" : "auto",
+            "tempBaseMax" : "auto",
+            "ifgExcludeList" : "auto",
+            "maskWater" : "False"},  
+
+    "Info" : "##########  MOJAVE DESERT ##############",
+    
+    "MojaveA64" : {
+            "calval_location" : "Mojave",
+            "download_region" : "'34.5 35.7 -116.5 -114.2'",
+            "analysis_region" : "'34.5 35.7 -116.5 -114.2'",
+            "reference_lalo" : "auto",
+            "download_start_date" : "20180101",
+            "download_end_date" : "20190101",
+            "earthquakeDate" : "20180412",              
+            "sentinel_track" : "64",
+            "gps_ref_site_name" : "auto",
+            "tempBaseMax" : "auto",
+            "ifgExcludeList" : "auto",
+            "maskWater" : "False"}, 
+
+    "Info" : "##########  LONG VALLEY CALDERA ##############",
+    
+    "LongValleyD133" : {
+            "calval_location" : "Long_Valley",
+            "download_region" : "'37.1 38.2 -119.5 -118.1'",
+            "analysis_region" : "'37.1 38.2 -119.5 -118.1'",
+            "reference_lalo" : "auto",
+            "download_start_date" : "20180101",
+            "download_end_date" : "20190101",
+            "earthquakeDate" : "20180412",              
+            "sentinel_track" : "133",
+            "gps_ref_site_name" : "auto",
+            "tempBaseMax" : "auto",
+            "ifgExcludeList" : "auto",
+            "maskWater" : "False"}, 
+
+    "Info" : "##########  MEJILLONES, CHILE, D54 ##############",
+    
+    "MejillonesD54" : {
+            "calval_location" : "Mejillones_Chile",
+            "download_region" : "'-24.0 -22.0 -70.7 -67.0'",
+            "analysis_region" : "'-24.0 -22.0 -70.7 -67.0'",
+            "reference_lalo" : "auto",
+            "download_start_date" : "20180101",
+            "download_end_date" : "20190101",
+            "earthquakeDate" : "20180412",              
+            "sentinel_track" : "54",
+            "gps_ref_site_name" : "auto",
+            "tempBaseMax" : "auto",
+            "ifgExcludeList" : "auto",
+            "maskWater" : "False"}, 
+
+    "Info" : "##########  MEJILLONES, CHILE, D156 ##############",
+    
+    "MejillonesD156" : {
+            "calval_location" : "Mejillones_Chile",
+            "download_region" : "'-24.0 -22.0 -70.7 -67.0'",
+            "analysis_region" : "'-24.0 -22.0 -70.7 -67.0'",
+            "reference_lalo" : "auto",
+            "download_start_date" : "20180101",
+            "download_end_date" : "20190101",
+            "earthquakeDate" : "20180412",              
+            "sentinel_track" : "156",
+            "gps_ref_site_name" : "auto",
+            "tempBaseMax" : "auto",
+            "ifgExcludeList" : "auto",
+            "maskWater" : "False"}, 
+
+    "Info" : "##########  WESTERN OREGON ##############",
+    
+    "WesternOregonD13" : {
+            "calval_location" : "Western_Oregon",
+            "download_region" : "'43.5 45.5 -124.4 -121.5'",
+            "analysis_region" : "'43.5 45.5 -124.4 -121.5'",
+            "reference_lalo" : "auto",
+            "download_start_date" : "20180101",
+            "download_end_date" : "20190101",
+            "earthquakeDate" : "20180412",              
+            "sentinel_track" : "13",
+            "gps_ref_site_name" : "auto",
+            "tempBaseMax" : "auto",
+            "ifgExcludeList" : "auto",
+            "maskWater" : "False"}, 
+
+    "Info" : "##########  HOKKAIDO JAPAN ##############",
+    
+    "HokkaidoD46" : {
+            "calval_location" : "Hokkaido_Japan",
+            "download_region" : "'41.8 44.4 139.8 143.3'",
+            "analysis_region" : "'41.8 44.4 139.8 143.3'",
+            "reference_lalo" : "auto",
+            "download_start_date" : "20180101",
+            "download_end_date" : "20190101",
+            "earthquakeDate" : "20180412",              
+            "sentinel_track" : "46",
+            "gps_ref_site_name" : "auto",
+            "tempBaseMax" : "auto",
+            "ifgExcludeList" : "auto",
+            "maskWater" : "False"}, 
+
+    "Info" : "##########  HOUSTON GALVESTON ##############",
+    
+    "HoustonA34" : {
+            "calval_location" : "Houston_Galveston",
+            "download_region" : "'28.5 31.0 -97.3 -93.5'",
+            "analysis_region" : "'28.5 31.0 -97.3 -93.5'",
+            "reference_lalo" : "auto",
+            "download_start_date" : "20180101",
+            "download_end_date" : "20190101",
+            "earthquakeDate" : "20180412",              
+            "sentinel_track" : "34",
+            "gps_ref_site_name" : "auto",
+            "tempBaseMax" : "auto",
+            "ifgExcludeList" : "auto",
+            "maskWater" : "False"}, 
+
+    "Info" : "##########  BIG ISLAND HAWAII A124 ##############",
+    
+    "HawaiiA124" : {
+            "calval_location" : "Big_Island",
+            "download_region" : "'18.9 20.3 -156.2 -154.7'",
+            "analysis_region" : "'18.9 20.3 -156.2 -154.7'",
+            "reference_lalo" : "auto",
+            "download_start_date" : "20180101",
+            "download_end_date" : "20190101",
+            "earthquakeDate" : "20180412",              
+            "sentinel_track" : "124",
+            "gps_ref_site_name" : "auto",
+            "tempBaseMax" : "auto",
+            "ifgExcludeList" : "auto",
+            "maskWater" : "False"}, 
+
+    "Info" : "##########  BIG ISLAND HAWAII D87 ##############",
+    
+    "HawaiiD87" : {
+            "calval_location" : "Big_Island",
+            "download_region" : "'18.9 20.3 -156.2 -154.7'",
+            "analysis_region" : "'18.9 20.3 -156.2 -154.7'",
+            "reference_lalo" : "auto",
+            "download_start_date" : "20180101",
+            "download_end_date" : "20190101",
+            "earthquakeDate" : "20180412",              
+            "sentinel_track" : "87",
+            "gps_ref_site_name" : "auto",
+            "tempBaseMax" : "auto",
+            "ifgExcludeList" : "auto",
+            "maskWater" : "False"}, 
+
+    "Info" : "##########  NORTH ISLAND NEW ZEALAND ##############",
+    
+    "KiwiA81" : {
+            "calval_location" : "New_Zealand",
+            "download_region" : "'-40.6 -37.0 173.6 176.2'",
+            "analysis_region" : "'-40.6 -37.0 173.6 176.2'",
+            "reference_lalo" : "auto",
+            "download_start_date" : "20180101",
+            "download_end_date" : "20190101",
+            "earthquakeDate" : "20180412",              
+            "sentinel_track" : "81",
+            "gps_ref_site_name" : "auto",
+            "tempBaseMax" : "auto",
+            "ifgExcludeList" : "auto",
+            "maskWater" : "False"}, 
+
+    "Info" : "##########  CENTRAL VALLEY OLD ##############",
     
     "CentralValleyA144" : {
             "calval_location" : "Central_Valley",
