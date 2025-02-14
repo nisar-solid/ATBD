@@ -2,7 +2,7 @@ gdal>=3
 h5py
 #isce2
 matplotlib
-mintpy=1.4.1
+mintpy
 numpy
 scipy
 wget
