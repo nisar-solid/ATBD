@@ -17,129 +17,133 @@ def display_validation(pair_distance: NDArray, pair_difference: NDArray,
                        sensor:str ='Sentinel-1', validation_type:str='secular',
                        validation_data:str='GNSS'):
 
-   '''
+    """Display double-difference validation results. Bin the double differences
+    as a function of point separation, compute the stastics for each bin, and
+    plot the results.
+
     Parameters:
-      pair_distance : array      - 1d array of pair distances used in validation
-      pair_difference : array    - 1d array 0f pair double differenced velocity residuals
-      site_name : str            - name of the cal/val site
-      start_date  : str          - data record start date, eg. 20190101
-      end_date : str             - data record end date, eg. 20200101
-      requirement : float        - value required for test to pass
-                                    e.g, 2 mm/yr for 3 years of data over distance requiremeent
-      distance_rqmt : list       - distance over requirement is tested, eg. length scales of 0.1-50 km
-      n_bins : int               - number of bins
-      threshold : float          - threshold represents percentile of Gaussian normal distribution
-                                    within residuals are expected to be to pass the test
-                                    e.g. 0.683 for 68.3% or 1-sigma limit 
-      sensor : str               - sensor used in validation, e.g Sentinel-1 or NISAR
-      validation_type : str      - type of validation: secular, coseismic, transient
-      validation_data : str      - data used to validate against; GNSS or INSAR
+       pair_distance : array      - 1d array of pair distances used in validation
+       pair_difference : array    - 1d array 0f pair double differenced velocity residuals
+       site_name : str            - name of the cal/val site
+       start_date  : str          - data record start date, eg. 20190101
+       end_date : str             - data record end date, eg. 20200101
+       requirement : float        - value required for test to pass
+                                     e.g, 2 mm/yr for 3 years of data over distance requiremeent
+       distance_rqmt : list       - distance over requirement is tested, eg. length scales of 0.1-50 km
+       n_bins : int               - number of bins
+       threshold : float          - threshold represents percentile of Gaussian normal distribution
+                                     within residuals are expected to be to pass the test
+                                     e.g. 0.683 for 68.3% or 1-sigma limit 
+       sensor : str               - sensor used in validation, e.g Sentinel-1 or NISAR
+       validation_type : str      - type of validation: secular, coseismic, transient
+       validation_data : str      - data used to validate against; GNSS or INSAR 
 
-   Return
-      validation_table
-      validation_figure
-   '''
-   # init dataframe
-   df = pd.DataFrame(np.vstack([pair_distance,
-                                pair_difference]).T,
-                                columns=['distance', 'double_diff'])
+    Return
+       validation_table
+       validation_figure
+    """
+    # Init dataframe
+    df = pd.DataFrame(np.vstack([pair_distance,
+                                 pair_difference]).T,
+                                 columns=['distance', 'double_diff'])
 
-   # remove nans
-   df_nonan = df.dropna(subset=['double_diff'])
-   bins = np.linspace(*distance_rqmt, num=n_bins+1)
-   bin_centers = (bins[:-1] + bins[1:]) / 2
-   binned_df = df_nonan.groupby(pd.cut(df_nonan['distance'], bins),
+    # Remove nans
+    df_nonan = df.dropna(subset=['double_diff'])
+    bins = np.linspace(*distance_rqmt, num=n_bins+1)
+    bin_centers = (bins[:-1] + bins[1:]) / 2
+    binned_df = df_nonan.groupby(pd.cut(df_nonan['distance'], bins),
                                 observed=False)[['double_diff']]
 
-   # get binned validation table 
-   validation = pd.DataFrame([])
-   validation['total_count[#]'] = binned_df.apply(lambda x: np.ma.masked_invalid(x).count())
-   validation['passed_req.[#]'] = binned_df.apply(lambda x: np.count_nonzero(x < requirement))
+    # Get binned validation table 
+    validation = pd.DataFrame([])
+    validation['total_count[#]'] = binned_df.apply(lambda x: np.ma.masked_invalid(x).count())
+    validation['passed_req.[#]'] = binned_df.apply(lambda x: np.count_nonzero(x < requirement))
    
-   # Add total at the end
-   validation = pd.concat([validation, pd.DataFrame(validation.sum(axis=0)).T])
-   validation['passed_pc'] = validation['passed_req.[#]'] / validation['total_count[#]']
-   validation['success_fail'] = validation['passed_pc'] > threshold
-   validation.index.name = 'distance[km]'
-   # Rename last row
-   validation.rename({validation.iloc[-1].name:'Total'}, inplace=True)
+    # Add total at the end
+    validation = pd.concat([validation, pd.DataFrame(validation.sum(axis=0)).T])
+    validation['passed_pc'] = validation['passed_req.[#]'] / validation['total_count[#]']
+    validation['success_fail'] = validation['passed_pc'] > threshold
+    validation.index.name = 'distance[km]'
 
-   # Figure
-   fig, ax = plt.subplots(1, figsize=(9, 3), layout="none", dpi=200)
-   
-   # Plot residuals
-   ms = 8 if pair_difference.shape[0] < 1e4 else 0.3
-   alpha = 0.6 if pair_difference.shape[0] < 1e4 else 0.2
-   ax.scatter(df_nonan.distance, df_nonan.double_diff,
-              color='black', s=ms, zorder=1, alpha=alpha, edgecolor='None')
+    # Rename last row
+    validation.rename({validation.iloc[-1].name:'Total'}, inplace=True)
 
-   ax.fill_between(distance_rqmt, 0, requirement, color='#e6ffe6', zorder=0, alpha=0.6)
-   ax.fill_between(distance_rqmt, requirement, 21, color='#ffe6e6', zorder=0, alpha=0.6)
-   ax.vlines(bins, 0, 21, linewidth=0.3, color='gray', zorder=1)
-   ax.axhline(requirement, color='k', linestyle='--', zorder=3)
+    # Figure
+    fig, ax = plt.subplots(1, figsize=(9, 3), layout="none", dpi=200)
 
-   # Bar plot for each bin
-   quantile_th = binned_df.quantile(q=threshold)['double_diff'].values
-   for bin_center, quantile, flag in zip(bin_centers,
-                                         quantile_th,
-                                         validation['success_fail']):
-      if flag:
-         color = '#227522'
-      else:
-         color = '#7c1b1b'
-      ax.bar(bin_center, quantile, align='center', width=np.diff(bins)[0],
-            color='None', edgecolor=color, linewidth=2, zorder=3)
+    # Plot residuals
+    ms = 8 if pair_difference.shape[0] < 1e4 else 0.3
+    alpha = 0.6 if pair_difference.shape[0] < 1e4 else 0.2
+    ax.scatter(df_nonan.distance, df_nonan.double_diff,
+               color='black', s=ms, zorder=1, alpha=alpha, edgecolor='None')
+
+    ax.fill_between(distance_rqmt, 0, requirement, color='#e6ffe6', zorder=0, alpha=0.6)
+    ax.fill_between(distance_rqmt, requirement, 21, color='#ffe6e6', zorder=0, alpha=0.6)
+    ax.vlines(bins, 0, 21, linewidth=0.3, color='gray', zorder=1)
+    ax.axhline(requirement, color='k', linestyle='--', zorder=3)
+
+    # Bar plot for each bin
+    quantile_th = binned_df.quantile(q=threshold)['double_diff'].values
+    for bin_center, quantile, flag in zip(bin_centers,
+                                          quantile_th,
+                                          validation['success_fail']):
+       if flag:
+          color = '#227522'
+       else:
+          color = '#7c1b1b'
+       ax.bar(bin_center, quantile, align='center', width=np.diff(bins)[0],
+             color='None', edgecolor=color, linewidth=2, zorder=3)
       
-   # Add legend with data info
-   legend_kwargs = dict(transform=ax.transAxes, verticalalignment='top')
-   props = dict(boxstyle='square', facecolor='white', alpha=1, linewidth=0.4)
-   textstr = f'Sensor: {sensor} \n{validation_data}-InSAR point pairs\n'
-   textstr += f'Record: {start_date}-{end_date}'
+    # Add legend with data info
+    legend_kwargs = dict(transform=ax.transAxes, verticalalignment='top')
+    props = dict(boxstyle='square', facecolor='white', alpha=1, linewidth=0.4)
+    textstr = f'Sensor: {sensor} \n{validation_data}-InSAR point pairs\n'
+    textstr += f'Record: {start_date}-{end_date}'
 
-   # place a text box in upper left in axes coords
-   ax.text(0.02, 0.95, textstr, fontsize=8, bbox=props, **legend_kwargs)
-   
-   # Add legend with validation info 
-   textstr = f'{validation_type.capitalize()} requirement\n'
-   textstr += f'Site: {site_name}\n'
-   if validation.loc['Total']['success_fail']:
-      validation_flag = 'PASSED'
-      validation_color = '#239d23'
-   else: 
-      validation_flag ='FAILED'
-      validation_color = '#bc2e2e'
+    # Place a text box in upper left in axes coords
+    ax.text(0.02, 0.95, textstr, fontsize=8, bbox=props, **legend_kwargs)
 
-   props = {**props, **{'facecolor':'none', 'edgecolor':'none'}}
-   ax.text(0.818, 0.93, textstr, fontsize=8, bbox=props, **legend_kwargs)
-   ax.text(0.852, 0.82,  f"{validation_flag}",
-           fontsize=10, weight='bold',
-           bbox=props, **legend_kwargs)
+    # Add legend with validation info 
+    textstr = f'{validation_type.capitalize()} requirement\n'
+    textstr += f'Site: {site_name}\n'
+    if validation.loc['Total']['success_fail']:
+       validation_flag = 'PASSED'
+       validation_color = '#239d23'
+    else: 
+       validation_flag ='FAILED'
+       validation_color = '#bc2e2e'
 
-   rect = patches.Rectangle((0.8, 0.75), 0.19, 0.2,
-                           linewidth=1, edgecolor='black',
-                           facecolor=validation_color,
-                           transform=ax.transAxes)
-   ax.add_patch(rect)
+    props = {**props, **{'facecolor':'none', 'edgecolor':'none'}}
+    ax.text(0.818, 0.93, textstr, fontsize=8, bbox=props, **legend_kwargs)
+    ax.text(0.852, 0.82,  f"{validation_flag}",
+            fontsize=10, weight='bold',
+            bbox=props, **legend_kwargs)
 
-   # Title & labels
-   fig.suptitle(f"{validation_type.capitalize()} requirement: {site_name}", fontsize=10)
-   ax.set_xlabel("Distance (km)", fontsize=8)
-   if validation_data == 'GNSS':
-       txt = "Double-Differenced \nVelocity Residual (mm/yr)"
-   else:
-       txt = "Relative Velocity measurement (mm/yr)"    
-   ax.set_ylabel(txt, fontsize=8)
-   ax.minorticks_on()
-   ax.tick_params(axis='x', which='minor', length=4, direction='in', top=False, width=1.5)
-   ax.tick_params(axis='both', labelsize=8)
-   ax.set_xticks(bin_centers, minor=True)
-   ax.set_xticks(np.arange(0,55,5))
-   ax.set_ylim(0,20)
-   ax.set_xlim(*distance_rqmt)
+    rect = patches.Rectangle((0.8, 0.75), 0.19, 0.2,
+                            linewidth=1, edgecolor='black',
+                            facecolor=validation_color,
+                            transform=ax.transAxes)
+    ax.add_patch(rect)
 
-   validation = validation.rename(columns={'success_fail': f'passed_req [>{threshold*100:.1f}%]'})
+    # Title & labels
+    fig.suptitle(f"{validation_type.capitalize()} requirement: {site_name}", fontsize=10)
+    ax.set_xlabel("Distance (km)", fontsize=8)
+    if validation_data == 'GNSS':
+        txt = "Double-Differenced \nVelocity Residual (mm/yr)"
+    else:
+        txt = "Relative Velocity measurement (mm/yr)"    
+    ax.set_ylabel(txt, fontsize=8)
+    ax.minorticks_on()
+    ax.tick_params(axis='x', which='minor', length=4, direction='in', top=False, width=1.5)
+    ax.tick_params(axis='both', labelsize=8)
+    ax.set_xticks(bin_centers, minor=True)
+    ax.set_xticks(np.arange(0,55,5))
+    ax.set_ylim(0,20)
+    ax.set_xlim(*distance_rqmt)
 
-   return validation, fig
+    validation = validation.rename(columns={'success_fail': f'passed_req [>{threshold*100:.1f}%]'})
+
+    return validation, fig
 
 def display_validation_table(validation_table):
     # Display Statistics
@@ -172,7 +176,11 @@ def display_coseismic_validation(pair_distance: NDArray, pair_difference: NDArra
                                  n_bins: int = 10, threshold: float = 0.683,
                                  sensor:str ='Sentinel-1', validation_type:str='secular',
                                  validation_data:str='GNSS'):
-    '''
+    """Display double-difference validation results. Evaluate the pass/fail
+    criterion for each double-difference measurement at a given distance. Then,
+    bin the double differences as a function of point separation, compute the
+    stastics for each bin, and plot the results.
+
     Parameters:
        pair_distance : array      - 1d array of pair distances used in validation
        pair_difference : array    - 1d array 0f pair double differenced velocity residuals
@@ -192,7 +200,7 @@ def display_coseismic_validation(pair_distance: NDArray, pair_difference: NDArra
     Return
        validation_table
        validation_figure
-    '''
+    """
     # Init dataframe
     df = pd.DataFrame(np.vstack([pair_distance,
                                  pair_difference]).T,
@@ -312,7 +320,7 @@ def display_transient_validation(pair_distances: list, pair_differences: list, i
                                  validation_data: str = 'GNSS'):
     
     
-    '''
+    """
     Parameters:
       pair_distances : array     - lis of  1d array of pair distances used in validation
       pair_differences : array   - list of 1d array 0f pair double differenced displacement residuals
@@ -330,7 +338,7 @@ def display_transient_validation(pair_distances: list, pair_differences: list, i
    Return
       validation_table : styled_df
       validation_figure : fig
-    '''
+    """
     validation_type = 'Transient'
     maxY=80 ## Y limit in the subplot
     
@@ -345,7 +353,7 @@ def display_transient_validation(pair_distances: list, pair_differences: list, i
     n_all = np.zeros([n_ifgs, n_bins + 1], dtype=int)
     n_pass = np.zeros([n_ifgs, n_bins + 1], dtype=int)
     
-    ##  requirements per interferogram and each interferogram per bin
+    ## Requirements per interferogram and each interferogram per bin
     for i in range(n_ifgs):
         inds = np.digitize(pair_distances[i], bins)
         for j in range(1, n_bins + 1):
@@ -367,7 +375,7 @@ def display_transient_validation(pair_distances: list, pair_differences: list, i
     ratio_pd = pd.DataFrame(ratio, columns=columns, index=index)
     success_or_fail_str = pd.DataFrame(success_or_fail.astype(str), columns=columns, index=index)
 
-    # # Styling the DataFrame
+    ## Styling the DataFrame
     def style_specific_cells(val):
         color = '#e6ffe6' if val > threshold else '#ffe6e6'
         return f'background-color: {color}'
@@ -433,6 +441,7 @@ def display_transient_validation(pair_distances: list, pair_differences: list, i
                 color = '#7c1b1b'
             ax.bar(bin_center, quantile, align='center', width=np.diff(bins)[0],
                    color='None', edgecolor=color, linewidth=2, zorder=3)
+
         # Add legend with data info
         legend_kwargs = dict(transform=ax.transAxes, verticalalignment='top')
         props = dict(boxstyle='square', facecolor='white', alpha=1, linewidth=0.4)
@@ -466,7 +475,6 @@ def display_transient_validation(pair_distances: list, pair_differences: list, i
         ax.add_patch(rect)
 
         # Title & labels
-        
         ax.set_xlabel("Distance (km)", fontsize=8)
         if validation_data == 'GNSS':
             txt = "Double-Differenced \n Displacement Residual (mm)"
@@ -485,7 +493,8 @@ def display_transient_validation(pair_distances: list, pair_differences: list, i
     # Hide unused subplots if there are any
     for idx in range(n_ifgs, num_rows*num_cols):
         axs.flat[idx].axis('off')  
-    # figure title
+
+    # Figure title
     fig.suptitle(f"{validation_type.capitalize()} requirement for site : {site_name} \n", fontsize=18, fontweight='bold')
     plt.tight_layout()
     
