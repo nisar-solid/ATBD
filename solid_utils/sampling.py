@@ -1,14 +1,140 @@
 import numpy as np
 import math
 import warnings
+import copy
 
 from solid_utils.variogram import remove_trend
 from mintpy.utils import utils as ut
 
 
+## Record measurement values at site locations
+class SiteMeasurement:
+    """Record the value of a measured parameter and the error on that
+    measurement at a named location (site). Support different naming of that
+    parameter via aliases (e.g., vel for velocity [Secular] and dis for
+    displacement [Coseismic]).
+
+    Differencing of two sites is defined as the subtraction of the parameter
+    at the second site from that of the first. Error is propagated as the
+    root sum of squares. Differencing can be performed by the subtraction
+    operator "-", e.g., Site1 - Site2.
+    """
+    # Measurement alias
+    @property
+    def x(self):
+        return self._x
+
+    @x.setter
+    def x(self, inp):
+        self._x = inp
+
+    @x.deleter
+    def x(self):
+        del self._x
+
+    # Measurement error alias
+    @property
+    def x_err(self):
+        return self._x_err
+
+    @x_err.setter
+    def x_err(self, inp):
+        self._x_err = inp
+
+    @x_err.deleter
+    def x_err(self):
+        del self._x_err
+
+    def __init__(self, site:str, site_lon:float, site_lat:float,
+                 x:float, x_err:float, unit:str):
+        """Record the site name and geographic location, as well as the
+        measurement value and error.
+
+        Parameters: site  - str, site name, e.g., four-char GNSS station code
+                    site_lon/lat - float, site geographic coordinates
+                    x     - float, measured value at the site
+                    x_err - float, stdev of measured value
+                    unit  - str, measurement unit
+        """
+        # Site attributes
+        self.site = site
+        self.site_lon = site_lon
+        self.site_lat = site_lat
+
+        # Measurement attributes
+        self.x = x
+        self.x_err = x_err
+        self.unit = unit
+
+    def report(self, scale=1., print_unit=None):
+        """Print the site name, measurement value, and uncertainty.
+        """
+        # Units to print
+        if scale != 1. and print_unit is None:
+            warnings.warn('Print scale was reset but units were not adjusted')
+        print_unit = self.unit if print_unit is None else print_unit
+
+        report_str = f"{self.site:s} " \
+                + f"{scale*self.x:.2f} +- {scale*self.x_err:.2f} " \
+                + f"{print_unit:s}"
+
+        return report_str
+
+    def __sub__(self, other):
+        """Subtract the measured value of the "other" site from this site.
+        Propagate the errors as the root sum of squares.
+        Carry over the name and geographic location of the current site.
+
+        Note that this definition overloads the subtraction operator.
+        """
+        # Check if units are the same between datasets
+        if self.unit != other.unit:
+            warnings.warn('Units do not match, continuing with differencing')
+
+        # Create new object and carry over attributes
+        resid = copy.deepcopy(self)
+
+        # Subtract measurement values
+        resid.x = self.x - other.x
+
+        # Propagate error as root sum of squares
+        resid.x_err = np.sqrt(self.x_err**2 + other.x_err**2)
+
+        return resid
+
+
+class SiteVelocity(SiteMeasurement):
+    """Child class of SiteMeasurement specifically for velocity measurements.
+    Inherits attributes of SiteMeasurement.
+    """
+    # Measurement information
+    quantity = 'velocity'
+
+    # Set aliases
+    vel = SiteMeasurement.x
+    vel_err = SiteMeasurement.x_err
+
+    def __init__(self, site, site_lon, site_lat, vel, vel_err, unit='m/y'):
+        super().__init__(site, site_lon, site_lat, vel, vel_err, unit)
+
+class SiteDisplacement(SiteMeasurement):
+    """Child class of SiteMeasurement specifically for displacement
+    measurements.
+    Inherits attributes of SiteMeasurement.
+    """
+    quantity = 'displacement'
+
+    # Set aliases
+    dis = SiteMeasurement.x
+    dis_err = SiteMeasurement.x_err
+
+    def __init__(self, site, site_lon, site_lat, dis, dis_err, unit='m'):
+        super().__init__(site, site_lon, site_lat, dis, dis_err, unit)
+
+
+## Collect samples from a raster dataset
 # Seed random number generator for consistency
 np.random.seed(1)
-
 
 def load_geo(attr_geo):
     """This program calculate the coordinate of the geocoded files
