@@ -66,19 +66,23 @@ class SiteMeasurement:
         self.x_err = x_err
         self.unit = unit
 
-    def report(self, scale=1., print_unit=None):
-        """Print the site name, measurement value, and uncertainty.
+    def __str__(self):
+        """Forumalte the print string from available attributes.
         """
-        # Units to print
-        if scale != 1. and print_unit is None:
-            warnings.warn('Print scale was reset but units were not adjusted')
-        print_unit = self.unit if print_unit is None else print_unit
+        # Initialize string with site name
+        print_str = f"{self.site:s}"
 
-        report_str = f"{self.site:s} " \
-                + f"{scale*self.x:.2f} +- {scale*self.x_err:.2f} " \
-                + f"{print_unit:s}"
+        # Append measurement value
+        print_str += f" {self.x:.2f}"
 
-        return report_str
+        # Append measurement value error if available
+        if not np.isnan(self.x_err):
+            print_str += f" +- {self.x_err:.3f}"
+
+        # Append units
+        print_str += f" {self.unit:s}"
+
+        return print_str
 
     def __sub__(self, other):
         """Subtract the measured value of the "other" site from this site.
@@ -114,7 +118,8 @@ class SiteVelocity(SiteMeasurement):
     vel = SiteMeasurement.x
     vel_err = SiteMeasurement.x_err
 
-    def __init__(self, site, site_lon, site_lat, vel, vel_err, unit='m/y'):
+    def __init__(self, site, site_lon, site_lat, vel, vel_err=np.nan,
+                 unit='m/y'):
         super().__init__(site, site_lon, site_lat, vel, vel_err, unit)
 
 class SiteDisplacement(SiteMeasurement):
@@ -128,7 +133,8 @@ class SiteDisplacement(SiteMeasurement):
     dis = SiteMeasurement.x
     dis_err = SiteMeasurement.x_err
 
-    def __init__(self, site, site_lon, site_lat, dis, dis_err, unit='m'):
+    def __init__(self, site, site_lon, site_lat, dis, dis_err=np.nan,
+                 unit='m'):
         super().__init__(site, site_lon, site_lat, dis, dis_err, unit)
 
 
