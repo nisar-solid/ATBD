@@ -45,7 +45,11 @@
 "gps_ref_site_name   : Name of the GPS site for InSAR re-referencing",
 "tempBaseMax         : maximum number of days, 'don't use interferograms longer than this value",
 "ifgExcludeList      : default is not to exclude any interferograms",
-"maskWater           : interior locations don't need to mask water"],
+"maskWater           : interior locations don't need to mask water",
+"do_SET              : apply solid Earth tide correction",
+"do_iono             : apply ionopshere correction",
+"do_tropo            : apply tropospheric correction",
+"tropo_model         : tropospheric model choice (options: HRRR, ERA5)"],
 
 "sites" : {
 
@@ -67,7 +71,8 @@
              "maskWater" : "False",
              "do_SET" : "True",
              "do_iono" : "True",
-             "do_tropo" : "True"},
+             "do_tropo" : "True",
+             "tropo_model" : "HRRR"},
 
     "Info" : "######## NISAR CALVAL SITES ########",
     "Info" : "######## CENTRAL VALLEY CA ########",
@@ -87,7 +92,8 @@
             "maskWater" : "False",
             "do_SET" : "True",
             "do_iono" : "True",
-            "do_tropo" : "True"},  
+            "do_tropo" : "True",
+            "tropo_model" : "HRRR"}, 
 
     "Info" : "######## LOS ANGELES BASIN ########",
     
@@ -106,7 +112,8 @@
             "maskWater" : "False",
             "do_SET" : "True",
             "do_iono" : "True",
-            "do_tropo" : "True"},  
+            "do_tropo" : "True",
+            "tropo_model" : "HRRR"},
 
     "Info" : "######## MOJAVE DESERT ########",
     
@@ -125,7 +132,8 @@
             "maskWater" : "False",
             "do_SET" : "True",
             "do_iono" : "True",
-            "do_tropo" : "True"}, 
+            "do_tropo" : "True",
+            "tropo_model" : "HRRR"},
 
     "Info" : "######## LONG VALLEY CALDERA ########",
     
@@ -144,7 +152,8 @@
             "maskWater" : "False",
             "do_SET" : "True",
             "do_iono" : "True",
-            "do_tropo" : "True"}, 
+            "do_tropo" : "True",
+            "tropo_model" : "HRRR"},
 
     "Info" : "######## MEJILLONES, CHILE ########",
     
@@ -163,7 +172,8 @@
             "maskWater" : "False",
             "do_SET" : "True",
             "do_iono" : "True",
-            "do_tropo" : "True"}, 
+            "do_tropo" : "True",
+            "tropo_model" : "HRRR"},
 
     "CalVal_S1_MejillonesD156" : {
             "calval_location" : "Mejillones_Chile",
@@ -180,7 +190,8 @@
             "maskWater" : "False",
             "do_SET" : "True",
             "do_iono" : "True",
-            "do_tropo" : "True"}, 
+            "do_tropo" : "True",
+            "tropo_model" : "HRRR"},
 
     "Info" : "######## WESTERN OREGON ########",
     
@@ -199,7 +210,8 @@
             "maskWater" : "False",
             "do_SET" : "True",
             "do_iono" : "True",
-            "do_tropo" : "True"}, 
+            "do_tropo" : "True",
+            "tropo_model" : "HRRR"},
 
     "Info" : "######## HOKKAIDO, JAPAN ########",
     
@@ -218,7 +230,8 @@
             "maskWater" : "False",
             "do_SET" : "True",
             "do_iono" : "True",
-            "do_tropo" : "True"}, 
+            "do_tropo" : "True",
+            "tropo_model" : "HRRR"},
 
     "Info" : "######## HOUSTON/GALVESTON ########",
     
@@ -237,7 +250,8 @@
             "maskWater" : "False",
             "do_SET" : "True",
             "do_iono" : "True",
-            "do_tropo" : "True"}, 
+            "do_tropo" : "True",
+            "tropo_model" : "HRRR"},
 
     "Info" : "######## BIG ISLAND, HAWAII ########",
     
@@ -256,7 +270,8 @@
             "maskWater" : "False",
             "do_SET" : "True",
             "do_iono" : "True",
-            "do_tropo" : "True"}, 
+            "do_tropo" : "True",
+            "tropo_model" : "HRRR"},
     
     "CalVal_S1_HawaiiD87" : {
             "calval_location" : "Big_Island",
@@ -273,7 +288,8 @@
             "maskWater" : "False",
             "do_SET" : "True",
             "do_iono" : "True",
-            "do_tropo" : "True"}, 
+            "do_tropo" : "True",
+            "tropo_model" : "HRRR"},
 
     "Info" : "######## NORTH ISLAND, NEW ZEALAND ########",
     
@@ -292,7 +308,8 @@
             "maskWater" : "False",
             "do_SET" : "True",
             "do_iono" : "True",
-            "do_tropo" : "True"}, 
+            "do_tropo" : "True",
+            "tropo_model" : "HRRR"},
 
 
     "Info" : "######## OTHER SITES ########",
@@ -313,7 +330,8 @@
             "maskWater" : "False",
             "do_SET" : "True",
             "do_iono" : "True",
-            "do_tropo" : "True"},
+            "do_tropo" : "True",
+            "tropo_model" : "HRRR"},
             
     "Info" : "######## OKLAHOMA ########",
     
@@ -332,7 +350,8 @@
             "maskWater" : "False",
             "do_SET" : "True",
             "do_iono" : "True",
-            "do_tropo" : "True"},
+            "do_tropo" : "True",
+            "tropo_model" : "HRRR"},
             
     "Info" : "######## PUERTO RICO ########",
     
@@ -351,7 +370,8 @@
             "maskWater" : "True",
             "do_SET" : "True",
             "do_iono" : "True",
-            "do_tropo" : "True"},
+            "do_tropo" : "True",
+            "tropo_model" : "HRRR"},
             
     "PuertoRicoA135" : {
              "calval_location" : "PuertoRicoAsc",
@@ -369,7 +389,8 @@
              "maskWater" : "True",
              "do_SET" : "True",
              "do_iono" : "True",
-             "do_tropo" : "True"},
+             "do_tropo" : "True",
+             "tropo_model" : "HRRR"},
              
     "Info" : "######## RIDGECREST ########",
     
@@ -388,7 +409,8 @@
              "maskWater" : "False",
              "do_SET" : "True",
              "do_iono" : "True",
-             "do_tropo" : "True"},
+             "do_tropo" : "True",
+             "tropo_model" : "HRRR"},
              
     "RidgecrestA64": {
              "calval_location" : "RidgecrestA64",
@@ -405,7 +427,8 @@
              "maskWater" : "False",
              "do_SET" : "True",
              "do_iono" : "True",
-             "do_tropo" : "True"},
+             "do_tropo" : "True",
+             "tropo_model" : "HRRR"},
              
     "Info" : "######## MOJAVE ########",
     
@@ -425,7 +448,8 @@
              "maskWater" : "False",
              "do_SET" : "True",
              "do_iono" : "True",
-             "do_tropo" : "True"},
+             "do_tropo" : "True",
+             "tropo_model" : "HRRR"},
 
     "MojaveD173_3year": {
              "calval_location" : "MojaveD173_3year",
@@ -442,7 +466,8 @@
              "maskWater" : "False",
              "do_SET" : "True",
              "do_iono" : "True",
-             "do_tropo" : "True"},
+             "do_tropo" : "True",
+             "tropo_model" : "HRRR"},
 
     "MojaveA64": {
              "calval_location" : "MojaveA64",
@@ -460,7 +485,8 @@
              "maskWater" : "False",
              "do_SET" : "True",
              "do_iono" : "True",
-             "do_tropo" : "True"},
+             "do_tropo" : "True",
+             "tropo_model" : "HRRR"},
              
     "Info" : "######## Los Angeles ########",
     
@@ -480,7 +506,8 @@
              "maskWater" : "False",
              "do_SET" : "True",
              "do_iono" : "True",
-             "do_tropo" : "True"},
+             "do_tropo" : "True",
+             "tropo_model" : "HRRR"},
 
     "LA_A64_3years": {
              "calval_location" : "LA_A64_3years",
@@ -497,7 +524,8 @@
              "maskWater" : "False",
              "do_SET" : "True",
              "do_iono" : "True",
-             "do_tropo" : "True"},
+             "do_tropo" : "True",
+             "tropo_model" : "HRRR"},
 
     "Info" : "######## ALOS SIMULATED DATA ########",
     
@@ -511,6 +539,7 @@
             "maskWater" : "False",
              "do_SET" : "True",
              "do_iono" : "True",
-             "do_tropo" : "True"}
+             "do_tropo" : "True",
+             "tropo_model" : "ERA5"},
 }
 }
