@@ -540,6 +540,6 @@
              "do_SET" : "True",
              "do_iono" : "True",
              "do_tropo" : "True",
-             "tropo_model" : "ERA5"},
+             "tropo_model" : "ERA5"}
 }
 }
