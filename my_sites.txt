@@ -26,7 +26,6 @@
 "RidgecrestA64       : Ridgecrest (Earthquake M7.2 on 20190705) - Ascending track",
 "MojaveD173          : Mojave desert (Ridgecrest Earthquake M7.2 on 20190705) - Descending track",
 "MojaveD173_3year    : Mojave desert (Ridgecrest Earthquake M7.2 on 20190705) - Descending track, 3 years",
-"MojaveA64           : Mojave desert (Ridgecrest Earthquake M7.2 on 20190705) - Ascending track",
 "LA_A64              : Los Angeles basin - Ascending track",
 "LA_A64_3years       : Los Angeles basin - Ascending track 3 years",
 "NISAR_ALOS1         : Simulated NISAR data from ALOS1",
@@ -34,18 +33,22 @@
 "######## GLOSSARY OF PARAMETERS ########",
 
 "calval_location     : name",
-"download_region     : download box in S,N,W,E format",
+"download_region     : download box in S,N,W,E format. E.g.: '34.5 35.60 -116.62 -114.39'",
 "analysis_region     : analysis box in S,N,W,E format (must be within download_region)",
-"reference_lalo      : latitute,longitude in geographic coordinates (default: auto)",
+"reference_lalo      : latitute,longitude in geographic coordinates (default: auto). E.g.: 35.20495,-115.81229",
 "download_start_date : download start date as YYYMMDD",  
 "download_end_date   : download end date as YYYMMDD",
-"earthquakeDate      : arbitrary date for testing with the central_valley dataset or actual earthquake",
+"earthquakeDate      : arbitrary date for testing with a non-coseismic dataset, or the date of an actual earthquake",
 "noEarthquakeDate    : arbitrary date with no earthquake for coseismic notebook",
-"sentinel_track      : sentinel track to download",
-"gps_ref_site_name   : Name of the GPS site for InSAR re-referencing",
+"sentinel_track      : sentinel track to download. E.g.: 173",
+"gps_ref_site_name   : Name of the GPS site for InSAR re-referencing (default: auto).",
 "tempBaseMax         : maximum number of days, 'don't use interferograms longer than this value",
-"ifgExcludeList      : default is not to exclude any interferograms",
-"maskWater           : interior locations don't need to mask water"],
+"ifgExcludeList      : default is not to exclude any interferograms. E.g.: 20190112_20190101 ",
+"maskWater           : interior locations don't need to mask water",
+"do_SET              : apply solid Earth tide correction (options: True, False)",
+"do_iono             : apply ionopshere correction (options: True, False)",
+"do_tropo            : apply tropospheric correction (options: True, False)",
+"tropo_model         : tropospheric model choice (options: HRRR, ERA5)"],
 
 "sites" : {
 
@@ -67,7 +70,8 @@
              "maskWater" : "False",
              "do_SET" : "True",
              "do_iono" : "True",
-             "do_tropo" : "True"},
+             "do_tropo" : "True",
+             "tropo_model" : "HRRR"},
 
     "Info" : "######## NISAR CALVAL SITES ########",
     "Info" : "######## CENTRAL VALLEY CA ########",
@@ -87,7 +91,8 @@
             "maskWater" : "False",
             "do_SET" : "True",
             "do_iono" : "True",
-            "do_tropo" : "True"},  
+            "do_tropo" : "True",
+            "tropo_model" : "HRRR"}, 
 
     "Info" : "######## LOS ANGELES BASIN ########",
     
@@ -106,26 +111,29 @@
             "maskWater" : "False",
             "do_SET" : "True",
             "do_iono" : "True",
-            "do_tropo" : "True"},  
+            "do_tropo" : "True",
+            "tropo_model" : "HRRR"},
 
     "Info" : "######## MOJAVE DESERT ########",
     
-    "CalVal_S1_MojaveA64" : {
-            "calval_location" : "Mojave",
-            "download_region" : "'34.5 35.7 -116.5 -114.2'",
-            "analysis_region" : "'34.5 35.7 -116.5 -114.2'",
-            "reference_lalo" : "auto",
-            "download_start_date" : "20180101",
-            "download_end_date" : "20190101",
-            "earthquakeDate" : "20180412",
-            "sentinel_track" : "64",
-            "gps_ref_site_name" : "auto",
-            "tempBaseMax" : "auto",
-            "ifgExcludeList" : "auto",
-            "maskWater" : "False",
-            "do_SET" : "True",
-            "do_iono" : "True",
-            "do_tropo" : "True"}, 
+    "CalVal_S1_MojaveD173": {
+             "calval_location" : "MojaveD173",
+            "download_region" : "'34.5 35.60 -116.62 -114.39'",
+             "analysis_region" : "'34.66 35.60 -116.62 -114.39'",
+             "reference_lalo" : "35.20495,-115.81229",
+             "download_start_date" : "20190101",
+             "download_end_date" : "20200101",
+             "earthquakeDate" : "20190705",
+             "noEarthquakeDate" : "20190405",
+             "sentinel_track" : "173",
+             "gps_ref_site_name" : "P619",
+             "tempBaseMax" : "auto",
+             "ifgExcludeList" : "auto",
+             "maskWater" : "False",
+             "do_SET" : "True",
+             "do_iono" : "True",
+             "do_tropo" : "True",
+             "tropo_model" : "HRRR"},
 
     "Info" : "######## LONG VALLEY CALDERA ########",
     
@@ -144,7 +152,8 @@
             "maskWater" : "False",
             "do_SET" : "True",
             "do_iono" : "True",
-            "do_tropo" : "True"}, 
+            "do_tropo" : "True",
+            "tropo_model" : "HRRR"},
 
     "Info" : "######## MEJILLONES, CHILE ########",
     
@@ -163,7 +172,8 @@
             "maskWater" : "False",
             "do_SET" : "True",
             "do_iono" : "True",
-            "do_tropo" : "True"}, 
+            "do_tropo" : "True",
+            "tropo_model" : "ERA5"},
 
     "CalVal_S1_MejillonesD156" : {
             "calval_location" : "Mejillones_Chile",
@@ -180,7 +190,8 @@
             "maskWater" : "False",
             "do_SET" : "True",
             "do_iono" : "True",
-            "do_tropo" : "True"}, 
+            "do_tropo" : "True",
+            "tropo_model" : "ERA5"},
 
     "Info" : "######## WESTERN OREGON ########",
     
@@ -199,7 +210,8 @@
             "maskWater" : "False",
             "do_SET" : "True",
             "do_iono" : "True",
-            "do_tropo" : "True"}, 
+            "do_tropo" : "True",
+            "tropo_model" : "HRRR"},
 
     "Info" : "######## HOKKAIDO, JAPAN ########",
     
@@ -218,7 +230,8 @@
             "maskWater" : "False",
             "do_SET" : "True",
             "do_iono" : "True",
-            "do_tropo" : "True"}, 
+            "do_tropo" : "True",
+            "tropo_model" : "ERA5"},
 
     "Info" : "######## HOUSTON/GALVESTON ########",
     
@@ -237,7 +250,8 @@
             "maskWater" : "False",
             "do_SET" : "True",
             "do_iono" : "True",
-            "do_tropo" : "True"}, 
+            "do_tropo" : "True",
+            "tropo_model" : "HRRR"},
 
     "Info" : "######## BIG ISLAND, HAWAII ########",
     
@@ -256,7 +270,8 @@
             "maskWater" : "False",
             "do_SET" : "True",
             "do_iono" : "True",
-            "do_tropo" : "True"}, 
+            "do_tropo" : "True",
+            "tropo_model" : "ERA5"},
     
     "CalVal_S1_HawaiiD87" : {
             "calval_location" : "Big_Island",
@@ -273,7 +288,8 @@
             "maskWater" : "False",
             "do_SET" : "True",
             "do_iono" : "True",
-            "do_tropo" : "True"}, 
+            "do_tropo" : "True",
+            "tropo_model" : "ERA5"},
 
     "Info" : "######## NORTH ISLAND, NEW ZEALAND ########",
     
@@ -292,7 +308,8 @@
             "maskWater" : "False",
             "do_SET" : "True",
             "do_iono" : "True",
-            "do_tropo" : "True"}, 
+            "do_tropo" : "True",
+            "tropo_model" : "ERA5"},
 
 
     "Info" : "######## OTHER SITES ########",
@@ -313,7 +330,8 @@
             "maskWater" : "False",
             "do_SET" : "True",
             "do_iono" : "True",
-            "do_tropo" : "True"},
+            "do_tropo" : "True",
+            "tropo_model" : "HRRR"},
             
     "Info" : "######## OKLAHOMA ########",
     
@@ -332,7 +350,8 @@
             "maskWater" : "False",
             "do_SET" : "True",
             "do_iono" : "True",
-            "do_tropo" : "True"},
+            "do_tropo" : "True",
+            "tropo_model" : "HRRR"},
             
     "Info" : "######## PUERTO RICO ########",
     
@@ -351,7 +370,8 @@
             "maskWater" : "True",
             "do_SET" : "True",
             "do_iono" : "True",
-            "do_tropo" : "True"},
+            "do_tropo" : "True",
+            "tropo_model" : "HRRR"},
             
     "PuertoRicoA135" : {
              "calval_location" : "PuertoRicoAsc",
@@ -369,7 +389,8 @@
              "maskWater" : "True",
              "do_SET" : "True",
              "do_iono" : "True",
-             "do_tropo" : "True"},
+             "do_tropo" : "True",
+             "tropo_model" : "HRRR"},
              
     "Info" : "######## RIDGECREST ########",
     
@@ -388,7 +409,8 @@
              "maskWater" : "False",
              "do_SET" : "True",
              "do_iono" : "True",
-             "do_tropo" : "True"},
+             "do_tropo" : "True",
+             "tropo_model" : "HRRR"},
              
     "RidgecrestA64": {
              "calval_location" : "RidgecrestA64",
@@ -405,7 +427,8 @@
              "maskWater" : "False",
              "do_SET" : "True",
              "do_iono" : "True",
-             "do_tropo" : "True"},
+             "do_tropo" : "True",
+             "tropo_model" : "HRRR"},
              
     "Info" : "######## MOJAVE ########",
     
@@ -425,7 +448,8 @@
              "maskWater" : "False",
              "do_SET" : "True",
              "do_iono" : "True",
-             "do_tropo" : "True"},
+             "do_tropo" : "True",
+             "tropo_model" : "HRRR"},
 
     "MojaveD173_3year": {
              "calval_location" : "MojaveD173_3year",
@@ -442,25 +466,8 @@
              "maskWater" : "False",
              "do_SET" : "True",
              "do_iono" : "True",
-             "do_tropo" : "True"},
-
-    "MojaveA64": {
-             "calval_location" : "MojaveA64",
-             "download_region" : "'34.50 35.60 -118.8 -116.6'",
-             "analysis_region" : "'34.50 35.60 -118.8 -116.6'",
-             "reference_lalo" : "34.919,-117.012",
-             "download_start_date" : "20191201",
-             "download_end_date" : "20200101",
-             "earthquakeDate" : "20190705",
-             "noEarthquakeDate" : "20190405",
-             "sentinel_track" : "64",
-             "gps_ref_site_name" : "BSRY",
-             "tempBaseMax" : "auto",
-             "ifgExcludeList" : "auto",
-             "maskWater" : "False",
-             "do_SET" : "True",
-             "do_iono" : "True",
-             "do_tropo" : "True"},
+             "do_tropo" : "True",
+             "tropo_model" : "HRRR"},
              
     "Info" : "######## Los Angeles ########",
     
@@ -480,7 +487,8 @@
              "maskWater" : "False",
              "do_SET" : "True",
              "do_iono" : "True",
-             "do_tropo" : "True"},
+             "do_tropo" : "True",
+             "tropo_model" : "HRRR"},
 
     "LA_A64_3years": {
              "calval_location" : "LA_A64_3years",
@@ -497,7 +505,8 @@
              "maskWater" : "False",
              "do_SET" : "True",
              "do_iono" : "True",
-             "do_tropo" : "True"},
+             "do_tropo" : "True",
+             "tropo_model" : "HRRR"},
 
     "Info" : "######## ALOS SIMULATED DATA ########",
     
@@ -511,6 +520,7 @@
             "maskWater" : "False",
              "do_SET" : "True",
              "do_iono" : "True",
-             "do_tropo" : "True"}
+             "do_tropo" : "True",
+             "tropo_model" : "ERA5"}
 }
 }
