@@ -271,7 +271,7 @@
             "do_SET" : "True",
             "do_iono" : "True",
             "do_tropo" : "True",
-            "tropo_model" : "HRRR"},
+            "tropo_model" : "ERA5"},
     
     "CalVal_S1_HawaiiD87" : {
             "calval_location" : "Big_Island",
@@ -289,7 +289,7 @@
             "do_SET" : "True",
             "do_iono" : "True",
             "do_tropo" : "True",
-            "tropo_model" : "HRRR"},
+            "tropo_model" : "ERA5"},
 
     "Info" : "######## NORTH ISLAND, NEW ZEALAND ########",
     
