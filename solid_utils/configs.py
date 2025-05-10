@@ -1,6 +1,7 @@
-# Author: Ekaterina Tymofyeyeva
+# Author: Emre Havazli, Ekaterina Tymofyeyeva
 # May, 2025
 # Utilities for changing configurations
+
 
 def update_reference_point(config_file, new_lat, new_lon):
     # Read the file

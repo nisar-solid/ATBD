@@ -1,4 +1,4 @@
-# Ekaterina Tymofyeyeva
+# Emre Havazli, Ekaterina Tymofyeyeva
 # May 2025
 
 import os
