@@ -41,15 +41,12 @@ def apply_cor(cor_name, ts_file, cor_file, config_file, mintpy_dir, output_ts, o
 
         cor_file = os.path.join(mintpy_dir, "ion.h5")
 
-        # === Apply correction ===
-        run_cmd(f"diff.py {ts_file} {cor_file} -o {output_ts} --force", desc="Applying the correction")
 
-    else:
-        run_cmd(f"reference_point.py {cor_file} --lat {ref_lat} --lon {ref_lon}", desc="Setting reference point")
-        run_cmd(f"reference_date.py {cor_file} --ref-date {ref_date}", desc="Setting reference date")
+    run_cmd(f"reference_point.py {cor_file} --lat {ref_lat} --lon {ref_lon}", desc="Setting reference point")
+    run_cmd(f"reference_date.py {cor_file} --ref-date {ref_date}", desc="Setting reference date")
 
-        # === Apply correction ===
-        run_cmd(f"diff.py {ts_file} {cor_file} -o {output_ts} --force", desc="Applying the correction")
+    # === Apply correction ===
+    run_cmd(f"diff.py {ts_file} {cor_file} -o {output_ts} --force", desc="Applying the correction")
 
     # === Estimate velocity ===
     run_cmd(f"timeseries2velocity.py {output_ts} -o {output_vel}", desc="Estimating velocity")
