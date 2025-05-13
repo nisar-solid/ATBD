@@ -16,10 +16,10 @@ def apply_cor(cor_name, ts_file, cor_file, config_file, mintpy_dir, output_ts, o
     """Apply correction to a MintPy time series file and estimate velocity."""
     
     # === Validate inputs ===
-    for f, label in [(cor_file, "Correction"), (ts_file, "Time series")]:
-        if not os.path.isfile(f):
-            raise FileNotFoundError(f"{label} file not found: {f}")
-        print(f"Found {label.lower()} file: {f}")
+    if not os.path.isfile(ts_file):
+        raise FileNotFoundError(f"Time series file not found: {ts_file}")
+    else:
+        print(f"Found time series file: {ts_file}")
 
     # === Load reference attributes from time series ===
     atr = readfile.read_attribute(ts_file)
@@ -27,8 +27,13 @@ def apply_cor(cor_name, ts_file, cor_file, config_file, mintpy_dir, output_ts, o
     ref_lon = float(atr["REF_LON"])
     ref_date = atr["REF_DATE"]
 
+    # === Handle MintPy SET correction ===
+    if cor_name.lower() == 'set':
+        if not os.path.isfile(cor_file):
+            run_cmd(f"solid_earth_tides.py {ts_file} -g {mintpy_dir}/inputs/geometryGeo.h5")
+
     # === Handle ionospheric correction ===
-    if cor_name == 'iono':        
+    elif cor_name.lower() == 'iono':
         run_cmd(f"modify_network.py {cor_file} -t {config_file}", desc="Modifying network for ionosphere")
         run_cmd(f"reference_point.py {cor_file} --lat {ref_lat} --lon {ref_lon}", desc="Setting reference point")
         run_cmd(f"ifgram_inversion.py {cor_file} --dset unwrapPhase --ref-date {ref_date} --weight-func no --update",
@@ -36,9 +41,9 @@ def apply_cor(cor_name, ts_file, cor_file, config_file, mintpy_dir, output_ts, o
 
         cor_file = os.path.join(mintpy_dir, "ion.h5")
 
-    else:
-        run_cmd(f"reference_point.py {cor_file} --lat {ref_lat} --lon {ref_lon}", desc="Setting reference point")
-        run_cmd(f"reference_date.py {cor_file} --ref-date {ref_date}", desc="Setting reference date")
+
+    run_cmd(f"reference_point.py {cor_file} --lat {ref_lat} --lon {ref_lon}", desc="Setting reference point")
+    run_cmd(f"reference_date.py {cor_file} --ref-date {ref_date}", desc="Setting reference date")
 
     # === Apply correction ===
     run_cmd(f"diff.py {ts_file} {cor_file} -o {output_ts} --force", desc="Applying the correction")
