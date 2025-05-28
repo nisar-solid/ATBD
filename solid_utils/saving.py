@@ -1,17 +1,11 @@
 import os
-from datetime import datetime as dt
 import shutil
 
-import json
-
-
-def save_results(method:str, save_dir:str, site_info:dict,
-                 validation_table, validation_fig):
-    """
-    I want to create a new folder with a timestamp and the method.
-    In that folder, I want the diff-vs-dist validation fig,
-    and text describing the input params that went into that,
-    and the output table (dataframe) in text form.
+def save_results(save_dir:str, run_date:str, requirement:str, site:str, method:str,
+                 sitedata:dict, ts_functions:dict, gnss_insar_fig, validation_fig, validation_table):
+    """Save the input parameters and results to an output folder.
+    The results folder will include image files, and an HTML file
+    recording the inputs, essential figures, and validation table.
     """
     # Create new directory for outputs
     if os.path.exists(save_dir):
@@ -20,23 +14,100 @@ def save_results(method:str, save_dir:str, site_info:dict,
         print(f"Creating {os.path.basename(save_dir)}")
         os.makedirs(save_dir)
 
-    # Save input parameters
-    params_fname = f"Method{method:s}_params.txt"
-    print(f"Saving processing parameters to: {params_fname}")
-    with open(os.path.join(save_dir, params_fname), 'w') as params_file:
-        json.dump(site_info, params_file, indent=4)
+    # Begin HTML string
+    html_str = """<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{requirement:s} Method {method}</title>
+</head>
+<body>
+    <h1>{requirement:s} requirement validation 
+{site:s} site, Method {method}</h1>
+</body>
+""".format(requirement=requirement.title(),
+           site=site,
+           method=method)
 
-    # Save validation table
-    table_fname = f"Method{method:s}_validation_table.txt"
-    print(f"Saving validation table to: {table_fname}")
-    with open(os.path.join(save_dir, table_fname), 'w') as table_file:
-        validation_table.to_csv(table_file)
+    # Run date time
+    html_str += """<body>
+    <h2>Run time:</h2>
+    {run_date:s}
+    </body>
+""".format(run_date=run_date)
+
+    # Site parameters
+    html_str += "<body>"
+    html_str += """<h2>Setup parameters:</h2>
+<ul>
+"""
+    for key, value in sitedata.items():
+        html_str += "<li>{}: {}</li>".format(key, value)
+    html_str += """</ul>
+</body>"""
+
+    # Timeseries basis functions
+    html_str += "<body>"
+    html_str += """<h3>Timeseries basis functions</h3>
+<ul>
+"""
+    for key, value in ts_functions.items():
+        html_str += "<li>{}: {}</li>".format(key, value)
+    html_str += """</ul>
+</body>"""
+
+    # Processing results
+    html_str += """<body>
+<h2>InSAR and GNSS LOS Velocities</h2>
+Visual comparison of GNSS and InSAR LOS velocities
+<br>
+</body>
+""".format(method=method)
+
+    # Save GNSS InSAR figure
+    fig_name = f"{requirement:s}_Method{method}_gnss_insar_figure.png"
+    fig_path = os.path.join(save_dir, fig_name)
+    print(f"Saving GNSS-InSAR figure to: {fig_name}")
+    gnss_insar_fig.savefig(fig_path, bbox_inches='tight', transparent=True,
+                           dpi=300)
+
+    # Embed GNSS-InSAR figure
+    html_str += """<body>
+<img src="{fig_name:s}" alt="Method {method} GNSS InSAR Image" width="800">
+</body>
+""".format(fig_name=fig_name,
+           method=method)
+
+    # Validation results
+    html_str += """<body>
+<h2>Method {method} Results</h2>
+</body>
+""".format(method=method)
 
     # Save validation figure
-    fig_fname = f"Method{method:s}_validation_figure.png"
-    print(f"Saving validation figure to: {fig_fname}")
-    validation_fig.savefig(os.path.join(save_dir, fig_fname),
-                           bbox_inches='tight', transparent=True, dpi=300)
+    fig_name = f"{requirement:s}_Method{method}_validation_figure.png"
+    fig_path = os.path.join(save_dir, fig_name)
+    print(f"Saving validation figure to: {fig_name}")
+    validation_fig.savefig(fig_path, bbox_inches='tight', transparent=True,
+                           dpi=300)
+
+    # Embed validation figure
+    html_str += """<body>
+<img src="{fig_name:s}" alt="Method {method} Validation Image" width="800">
+</body>
+""".format(fig_name=fig_name,
+           method=method)
+
+    # Validation table
+    html_str += """<body>
+{}
+</body>""".format(validation_table.to_html())
+    
+    # Write to HTML file
+    html_name = f"{requirement:s}_Method{method}_validation_report.html"
+    html_path = os.path.join(save_dir, html_name)
+    with open(html_path, 'w') as html_file:
+        html_file.write(html_str)
 
     print(f"Saved parameters and results to: {save_dir:s}")
 
