@@ -1,6 +1,6 @@
 import os
 import shutil
-from weasyprint import HTML
+# from weasyprint import HTML
 
 
 def save_results(save_dir:str, run_date:str, requirement:str, site:str, method:str,
@@ -111,9 +111,9 @@ Visual comparison of GNSS and InSAR LOS velocities
     with open(html_path, 'w') as html_file:
         html_file.write(html_str)
 
-    pdf_file = html_path.split(".")[0]+".pdf"
-    HTML(html_path).write_pdf(pdf_file)
-    print(f"Saved PDF version of report to: {pdf_file}")
+    # pdf_file = html_path.split(".")[0]+".pdf"
+    # HTML(html_path).write_pdf(pdf_file)
+    # print(f"Saved PDF version of report to: {pdf_file}")
     print(f"Saved parameters and results to: {save_dir:s}")
 
     # Save to zip file
