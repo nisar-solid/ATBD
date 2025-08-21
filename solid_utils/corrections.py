@@ -7,6 +7,7 @@ import numpy as np
 import h5py
 from mintpy.utils import readfile, writefile, plot
 from mintpy.objects import ifgramStack, timeseries
+import warnings
 
 ## Correction application
 def run_cmd(command, desc=None, check=True):
@@ -90,10 +91,13 @@ def pairwise_stack_from_timeseries(ifgs_file:str, tropo_cor_file:str):
     for date_pair in ifg_datepairList:
         ifg_dates.extend(date_pair.split("_"))
     ifg_dates = list(set(ifg_dates))
-    
+
+    badlist = []
     for date in ifg_dates:
         if date not in tropo_dateList:
-            raise Exception(f"No tropo correction layer for {date}")
+            #raise Exception(f"No tropo correction layer for {date}")
+            warnings.warn("No tropo correction layer for date " + date + " Interferograms with this scene will not be corrected for troposphere.")
+            badlist.append(date)
 
     # Read tropo metadata
     tropo_metadata = readfile.read_attribute(tropo_cor_file,
@@ -121,6 +125,11 @@ def pairwise_stack_from_timeseries(ifgs_file:str, tropo_cor_file:str):
     for i, datepair in enumerate(ifg_datepairList):
         # Parse dates - for MintPy convention, the more recent date is the reference
         ref_date, sec_date = datepair.split("_")
+
+        if ref_date in badlist or sec_date in badlist:
+            tropo_diff = np.zeros((ifgs_shape[1],ifgs_shape[2]))
+            tropo_diff_stack[i,...] = tropo_diff
+            continue
     
         # Retrieve tropo layers
         tropo_ref, _ = readfile.read(tropo_cor_file,
