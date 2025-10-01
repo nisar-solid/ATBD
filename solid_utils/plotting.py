@@ -49,7 +49,9 @@ def display_validation(pair_distance: NDArray, pair_difference: NDArray,
 
     # Remove nans
     df_nonan = df.dropna(subset=['double_diff'])
-    bins = np.linspace(*distance_rqmt, num=n_bins+1)
+    distance_rqmt_log = [0.011,np.log10(distance_rqmt[1])]
+
+    bins = np.logspace(*distance_rqmt_log, num=n_bins+1)
     bin_centers = (bins[:-1] + bins[1:]) / 2
     binned_df = df_nonan.groupby(pd.cut(df_nonan['distance'], bins),
                                 observed=False)[['double_diff']]
@@ -58,6 +60,7 @@ def display_validation(pair_distance: NDArray, pair_difference: NDArray,
     validation = pd.DataFrame([])
     validation['total_count[#]'] = binned_df.apply(lambda x: np.ma.masked_invalid(x).count())
     validation['passed_req.[#]'] = binned_df.apply(lambda x: np.count_nonzero(x < requirement))
+    bin_counts = validation['total_count[#]'].values
    
     # Add total at the end
     validation = pd.concat([validation, pd.DataFrame(validation.sum(axis=0)).T])
@@ -70,28 +73,32 @@ def display_validation(pair_distance: NDArray, pair_difference: NDArray,
 
     # Figure
     fig, ax = plt.subplots(1, figsize=(9, 3), layout="none", dpi=200)
-
+    ax.set_xscale('log')
+    
     # Plot residuals
-    ms = 8 if pair_difference.shape[0] < 1e4 else 0.3
+    distance = np.log(df_nonan.distance)
+    ms = 6 if pair_difference.shape[0] < 1e4 else 0.3
     alpha = 0.6 if pair_difference.shape[0] < 1e4 else 0.2
     ax.scatter(df_nonan.distance, df_nonan.double_diff,
                color='black', s=ms, zorder=1, alpha=alpha, edgecolor='None')
 
     ax.fill_between(distance_rqmt, 0, requirement, color='#e6ffe6', zorder=0, alpha=0.6)
-    ax.fill_between(distance_rqmt, requirement, 21, color='#ffe6e6', zorder=0, alpha=0.6)
-    ax.vlines(bins, 0, 21, linewidth=0.3, color='gray', zorder=1)
+    ax.fill_between(distance_rqmt, requirement, 31, color='#ffe6e6', zorder=0, alpha=0.6)
+    ax.vlines(bins, 0, 31, linewidth=0.3, color='gray', zorder=1)
     ax.axhline(requirement, color='k', linestyle='--', zorder=3)
 
     # Bar plot for each bin
     quantile_th = binned_df.quantile(q=threshold)['double_diff'].values
-    for bin_center, quantile, flag in zip(bin_centers,
+    for bin_center, quantile, flag, bindiff in zip(bin_centers,
                                           quantile_th,
-                                          validation['success_fail']):
+                                          validation['success_fail'],np.diff(bins)):
+
        if flag:
           color = '#227522'
        else:
           color = '#7c1b1b'
-       ax.bar(bin_center, quantile, align='center', width=np.diff(bins)[0],
+
+       ax.bar(bin_center, quantile, align='center', width=bindiff,
              color='None', edgecolor=color, linewidth=2, zorder=3)
       
     # Add legend with data info
@@ -125,6 +132,12 @@ def display_validation(pair_distance: NDArray, pair_difference: NDArray,
                             transform=ax.transAxes)
     ax.add_patch(rect)
 
+    # Plot number of points in bin
+    ax2 = ax.twinx()
+    ax2.plot(bin_centers, bin_counts, marker='o', linestyle='-')
+    ax2.set_yscale('log')
+    ax2.set_ylim(1+np.min(bin_counts), 10*np.max(bin_counts))
+    
     # Title & labels
     fig.suptitle(f"{validation_type.capitalize()} requirement: {site_name}", fontsize=10)
     ax.set_xlabel("Distance (km)", fontsize=8)
@@ -136,10 +149,9 @@ def display_validation(pair_distance: NDArray, pair_difference: NDArray,
     ax.minorticks_on()
     ax.tick_params(axis='x', which='minor', length=4, direction='in', top=False, width=1.5)
     ax.tick_params(axis='both', labelsize=8)
-    ax.set_xticks(bin_centers, minor=True)
-    ax.set_xticks(np.arange(0,55,5))
-    ax.set_ylim(0,20)
-    ax.set_xlim(*distance_rqmt)
+    ax.set_xticks([1,10,100])
+    ax.set_ylim(0,30)
+    ax.set_xlim([1,100])
 
     validation = validation.rename(columns={'success_fail': f'passed_req [>{threshold*100:.1f}%]'})
 
