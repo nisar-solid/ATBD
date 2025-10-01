@@ -507,10 +507,9 @@ def display_transient_validation(pair_distances: list, pair_differences: list, i
 def display_permafrost_validation(pair_distance: NDArray, pair_difference: NDArray,
                        site_name: str, start_date: str, end_date: str,
                        requirement: float = 2, req_dist_fcn: bool = False,
-                       distance_rqmt: list = [0.1, 50], n_bins: int = 10, threshold: float = 0.683, 
-                       sensor:str ='Sentinel-1', validation_type:str='secular',
-                       validation_data:str='Field meas'):
-
+                       distance_rqmt: list = [0.1, 50], n_bins: int = 10, threshold: float = 0.8, 
+                       sensor:str ='Sentinel-1', validation_type:str='permafrost',
+                       validation_data:str='field'):
    '''
     Parameters:
       pair_distance : array      - 1d array of pair distances used in validation
@@ -525,10 +524,10 @@ def display_permafrost_validation(pair_distance: NDArray, pair_difference: NDArr
       n_bins : int               - number of bins
       threshold : float          - threshold represents percentile of Gaussian normal distribution
                                     within residuals are expected to be to pass the test
-                                    e.g. 0.683 for 68.3% or 1-sigma limit 
+                                    e.g. 0.8 for 80%
       sensor : str               - sensor used in validation, e.g Sentinel-1 or NISAR
-      validation_type : str      - type of validation: secular, coseismic, transient
-      validation_data : str      - data used to validate against; GNSS or INSAR
+      validation_type : str      - type of validation: permafrost
+      validation_data : str      - data used to validate against; field or INSAR
 
    Return
       validation_table
@@ -637,7 +636,7 @@ def display_permafrost_validation(pair_distance: NDArray, pair_difference: NDArr
    if validation_data == 'GNSS':
        txt = "Double-Differenced \nVelocity Residual (mm/yr)"
    else:
-       txt = "Relative Velocity measurement (mm/yr)"    
+       txt = "Relative displacement measurement (mm)"    
    ax.set_ylabel(txt, fontsize=8)
    ax.minorticks_on()
    ax.tick_params(axis='x', which='minor', length=4, direction='in', top=False, width=1.5)
