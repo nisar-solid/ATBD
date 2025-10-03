@@ -611,6 +611,22 @@
             "SET_source" : "mintpy",
             "do_iono" : "True",
             "do_tropo" : "True",
-            "tropo_model" : "ERA5"}
+            "tropo_model" : "ERA5"},
+
+    "Info" : "######## PERMAFROST #########",
+
+    "NorthSlopeEastD102" : {
+                "calval_location" : "NorthSlopeEastD102",
+                "region_identifier" : "POINT(-149.37 69.09)",
+                "subset_region" : "[7620213:7686754, 641941:679925]",            
+                "download_start_date" : "20230525",
+                "download_end_date"  : "20230910",
+                "mintpy_ref_loc"      : "7651392, 666923",
+                "tempBaseMax" : "36",
+                "ifgExcludeList" : "auto",
+                "maskWater" : "True",
+                "sentinel_direction" : "DESCENDING",
+                "sentinel_path" : "102",
+                "sentinel_frame" : "362"}
 }
 }
