@@ -613,6 +613,25 @@
             "do_tropo" : "True",
             "tropo_model" : "ERA5"},
 
+    "NISAR_ALOS1_Hawaii_0380" : {
+            "calval_location" : "ALOS_Hawaii0380",
+            "download_region" : "'18.95 19.92 -155.72 -154.83'",
+            "analysis_region" : "'19.01 19.91 -155.68 -154.89'",
+            "reference_lalo" : "auto",
+            "download_start_date" : "20060526",
+            "download_end_date" : "20110309",
+            "tempBaseMax" : "auto",
+            "ifgExcludePair" : "auto",
+            "ifgExcludeDate" : "auto",
+            "ifgExcludeIndex" : "auto",
+            "maskWater" : "True",
+            "do_SET" : "True",
+            "SET_source" : "mintpy",
+            "do_iono" : "True",
+            "do_tropo" : "False",
+            "tropo_model" : "ERA5"},
+
+
     "Info" : "######## PERMAFROST #########",
 
     "NorthSlopeEastD102" : {
