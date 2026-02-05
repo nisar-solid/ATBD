@@ -646,6 +646,26 @@
                 "maskWater" : "True",
                 "sentinel_direction" : "DESCENDING",
                 "sentinel_path" : "102",
-                "sentinel_frame" : "362"}
+                "sentinel_frame" : "362"},
+
+    "Info" : "######## NISAR DATA ########",
+    
+    "Erta_Ale" : {
+            "calval_location" : "Erta_Ale",
+            "download_region" : "'11.47 14.12 40.19 42.97'",
+            "analysis_region" : "'11.47 14.12 40.19 42.97'",
+            "reference_lalo" : "auto",
+            "download_start_date" : "20251122",
+            "download_end_date" : "20251204",
+            "tempBaseMax" : "auto",
+            "ifgExcludePair" : "auto",
+            "ifgExcludeDate" : "auto",
+            "ifgExcludeIndex" : "auto",
+            "maskWater" : "True",
+            "do_SET" : "True",
+            "SET_source" : "mintpy",
+            "do_iono" : "True",
+            "do_tropo" : "True",
+            "tropo_model" : "NISAR"}
 }
 }
