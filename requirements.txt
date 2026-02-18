@@ -1,5 +1,6 @@
 gdal>=3
 h5py
+hyp3-sdk
 #isce2
 matplotlib
 mintpy
@@ -16,3 +17,4 @@ nbdime
 geopandas
 pandas
 rasterio
+sardem
