@@ -224,9 +224,11 @@ def display_coseismic_validation(pair_distance: NDArray, pair_difference: NDArra
 
     # Remove nans
     df_nonan = df.dropna(subset=['double_diff'])
+    distance_rqmt_log = [0.011,np.log10(distance_rqmt[1])]
 
     # Bin data
-    bins = np.linspace(*distance_rqmt, num=n_bins+1)
+    bins = np.logspace(*distance_rqmt_log, num=n_bins+1)
+    #bins = np.linspace(*distance_rqmt, num=n_bins+1)
     bin_centers = (bins[:-1] + bins[1:]) / 2
     bin_series = pd.cut(df_nonan['distance'], bins)
     binned_df = df_nonan.groupby(pd.cut(df_nonan['distance'], bins),
@@ -236,6 +238,7 @@ def display_coseismic_validation(pair_distance: NDArray, pair_difference: NDArra
     validation = pd.DataFrame([])
     validation['total_count[#]'] = binned_df.apply(lambda x: np.ma.masked_invalid(x['double_diff']).count())
     validation['passed_req.[#]'] = binned_df.apply(lambda x: np.sum(x['requirement']))
+    bin_counts = validation['total_count[#]'].values
 
     # Add total at the end
     validation = pd.concat([validation, pd.DataFrame(validation.sum(axis=0)).T])
@@ -248,14 +251,17 @@ def display_coseismic_validation(pair_distance: NDArray, pair_difference: NDArra
 
     # Figure
     fig, ax = plt.subplots(1, figsize=(9, 3), layout="none", dpi=200)
+    ax.set_xscale('log')
 
     # Plot residuals
-    ms = 8 if pair_difference.shape[0] < 1e4 else 0.3
+    #ms = 8 if pair_difference.shape[0] < 1e4 else 0.3
+    ms = 8 if 'GNSS' in validation_data else 0.7
     alpha = 0.6 if pair_difference.shape[0] < 1e4 else 0.2
     ax.scatter(df_nonan.distance, df_nonan.double_diff,
                color='black', s=ms, zorder=1, alpha=alpha, edgecolor='None')
 
     distance_envelope = np.linspace(*distance_rqmt, num=100)
+    #distance_envelope = np.logspace(*distance_rqmt_log, num=100)
     requirement_envelope = requirement(distance_envelope)
     ax.fill_between(distance_envelope, 0, requirement_envelope, color='#e6ffe6', zorder=0, alpha=0.6)
     ax.fill_between(distance_envelope, requirement_envelope, 51, color='#ffe6e6', zorder=0, alpha=0.6)
@@ -264,15 +270,17 @@ def display_coseismic_validation(pair_distance: NDArray, pair_difference: NDArra
 
     # Bar plot for each bin
     quantile_th = binned_df.quantile(q=threshold)['double_diff'].values
-    for bin_center, quantile, flag in zip(bin_centers,
+    for bin_center, quantile, flag, bindiff in zip(bin_centers,
                                           quantile_th,
-                                          validation['success_fail']):
+                                          validation['success_fail'],np.diff(bins)):
         if flag:
             color = '#227522'
         else:
             color = '#7c1b1b'
-        ax.bar(bin_center, quantile, align='center', width=np.diff(bins)[0],
-               color='None', edgecolor=color, linewidth=2, zorder=3)
+        #ax.bar(bin_center, quantile, align='center', width=np.diff(bins)[0],
+        #       color='None', edgecolor=color, linewidth=2, zorder=3)
+        ax.bar(bin_center, quantile, align='center', width=bindiff,
+                color='None', edgecolor=color, linewidth=2, zorder=3)
 
     # Add legend with data info
     legend_kwargs = dict(transform=ax.transAxes, verticalalignment='top')
@@ -305,6 +313,12 @@ def display_coseismic_validation(pair_distance: NDArray, pair_difference: NDArra
                              transform=ax.transAxes)
     ax.add_patch(rect)
 
+    # Plot number of points in bin
+    ax2 = ax.twinx()
+    ax2.plot(bin_centers, bin_counts, marker='o', linestyle='-')
+    ax2.set_yscale('log')
+    ax2.set_ylim(1+np.min(bin_counts), 10*np.max(bin_counts))
+    
     # Title & labels
     fig.suptitle(f"{validation_type.capitalize()} requirement: {site_name}", fontsize=10)
     ax.set_xlabel("Distance (km)", fontsize=8)
@@ -316,10 +330,11 @@ def display_coseismic_validation(pair_distance: NDArray, pair_difference: NDArra
     ax.minorticks_on()
     ax.tick_params(axis='x', which='minor', length=4, direction='in', top=False, width=1.5)
     ax.tick_params(axis='both', labelsize=8)
-    ax.set_xticks(bin_centers, minor=True)
-    ax.set_xticks(np.arange(0, 55, 5))
+    #ax.set_xticks(bin_centers, minor=True)
+    ax.set_xticks([1,10,100])
+    #ax.set_xticks(np.arange(0, 55, 5))
     ax.set_ylim(0, 50)
-    ax.set_xlim(*distance_rqmt)
+    ax.set_xlim(1,distance_rqmt[1])
 
     validation = validation.rename(columns={'success_fail': f'passed_req [>{threshold*100:.1f}%]'})
     
