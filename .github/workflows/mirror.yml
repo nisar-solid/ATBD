@@ -1,18 +1,18 @@
 on:
-  push:
-    branches: [ "**" ] # Triggers on commits to any branch
-  pull_request:
-    types: [opened, synchronize, reopened] # Triggers on PR updates
+  push:
+    branches: [ main ] # Triggers on commits to main
+  pull_request:
+    types: [opened, synchronize, reopened] # Triggers on PR updates
 
 jobs:
-  mirror_to_org:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Create bare clone of source
-        run: |
-          git clone --bare https://github.com/nisar-solid/ATBD.git source-repo.git
+  mirror_to_org:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Create bare clone of source
+        run: |
+          git clone --bare https://github.com/nisar-solid/ATBD.git source-repo.git
 
-      - name: Push mirror to Organization
-        run: |
-          cd source-repo.git
-          git push --mirror https://${{ secrets.NISAR_TOKEN }}@github.com/nisar-science-algorithms/NISAR_SolidEarth.git
+      - name: Push mirror to Organization
+        run: |
+          cd source-repo.git
+          git push https://${{ secrets.NISAR_TOKEN }}@github.com/NISAR-Science-Algorithms/NISAR_SolidEarth.git main:main
