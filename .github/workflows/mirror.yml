@@ -1,6 +1,6 @@
 on:
   push:
-    branches: [ "**" ] # Triggers on commits to any branch
+    branches: [ main ] # Triggers on commits to main
   pull_request:
     types: [opened, synchronize, reopened] # Triggers on PR updates
 
@@ -15,4 +15,4 @@ jobs:
       - name: Push mirror to Organization
         run: |
           cd source-repo.git
-          git push --mirror https://${{ secrets.NISAR_TOKEN }}@github.com/NISAR-Science-Algorithms/NISAR_SolidEarth.git
+          git push https://${{ secrets.NISAR_TOKEN }}@github.com/NISAR-Science-Algorithms/NISAR_SolidEarth.git main:main
