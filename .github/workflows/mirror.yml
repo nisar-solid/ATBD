@@ -15,4 +15,4 @@ jobs:
       - name: Push mirror to Organization
         run: |
           cd source-repo.git
-          git push --mirror https://${{ secrets.NISAR_TOKEN }}@github.com/nisar-science-algorithms/NISAR_SolidEarth.git
+          git push --mirror https://${{ secrets.NISAR_TOKEN }}@github.com/NISAR-Science-Algorithms/NISAR_SolidEarth.git
