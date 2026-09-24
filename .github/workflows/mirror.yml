@@ -16,4 +16,11 @@ jobs:
         run: |
           cd source-repo.git
           git push https://${{ secrets.NISAR_TOKEN }}@github.com/NISAR-Science-Algorithms/NISAR_SolidEarth.git main:main
-          git push https://${{ secrets.GITLAB_USERNAME }}:${{ secrets.GITLAB_TOKEN }}@gitlab.com/nisar-science-algorithms/solid-earth/ATBD.git main:main
+
+      - name: Push mirror to GitLab
+        working-directory: source-repo.git
+        env:
+          GITLAB_USERNAME: ${{ secrets.GITLAB_USERNAME }}
+          GITLAB_TOKEN: ${{ secrets.GITLAB_TOKEN }}
+        run: |
+          git push "https://${GITLAB_USERNAME}:${GITLAB_TOKEN}@gitlab.com/nisar-science-algorithms/solid-earth/ATBD.git" main:main
